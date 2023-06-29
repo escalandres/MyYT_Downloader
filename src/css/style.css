@@ -2,7 +2,7 @@
     --bs-body-color: #212529;
     --letter-color: #f6f6f6;
 }
-
+/*Seccion de temas*/
 .dark-theme {
     background-color: var(--bs-body-color) !important;
     color: var(--letter-color) !important;
@@ -17,8 +17,67 @@
     color: var(--letter-color) !important;
 }
 
+/*Seccion de Navbar*/
 .form-check .form-check-input {
     font-size: 1.5em;
     width: 3em !important;
     margin: 0 1em 0 0 ;
+}
+
+/*Seccion de Body*/
+.main-title{
+    text-align: center;
+}
+
+.spinne{
+    font-size: 100px;
+}
+
+.responsive-btn{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.75rem;
+    overflow: hidden;
+}
+
+/* const colores = [
+        '#FF6384', '#4a362f', '#ffdd8c', '#33FF99', '#2e4347',
+        '#ec6c2b', '#9f8241', '#620e5d', '#951f2b', '#69a2a8',
+        '#FFCE56', '#13cd4a', '#9966FF', '#f8a13f', '#f2a772',
+        '#917081', '#ff0051', '#551bb3', '#00c9d2', '#c8cd3b',
+        '#19274e', '#9d007a', '#7b6ed6', '#74b3a7', '#ff0099',
+        '#36A2EB', '#f5a3af', '#0b8770', '#3d3d34', '#d34017'
+    ];
+
+const colores = [
+    '#ff0051', '#13cd4a', '#36A2EB', '#FFCE56', '#9966FF',
+    '#ec6c2b', '#9f8241', '#620e5d', '#951f2b', '#69a2a8',
+    '#33FF99', '#4a362f', '#2e4347', '#f8a13f', '#f2a772',
+    '#917081', '#FF6384', '#551bb3', '#00c9d2', '#c8cd3b',
+    '#19274e', '#9d007a', '#7b6ed6', '#74b3a7', '#ff0099',
+    '#ffdd8c', '#f5a3af', '#0b8770', '#3d3d34', '#d34017'
+]; */
+
+body{
+  background-color:   #f1f1f1;
+} 
+
+.panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinne{
+    border: 3px solid;
 }
