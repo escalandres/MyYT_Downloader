@@ -18,7 +18,7 @@
 }
 
 /*Seccion de Navbar*/
-.form-check .form-check-input {
+.form-switch .form-switch-input {
     font-size: 1.5em;
     width: 3em !important;
     margin: 0 1em 0 0 ;
@@ -27,10 +27,6 @@
 /*Seccion de Body*/
 .main-title{
     text-align: center;
-}
-
-.spinne{
-    font-size: 100px;
 }
 
 .responsive-btn{
@@ -79,5 +75,33 @@ body{
 }
 
 .spinne{
-    border: 3px solid;
+    font-size: 100px;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+
+.input-container {
+    position: relative;
+}
+
+.icon-input {
+    padding-left: 35px !important; /* Espacio para el icono */
+}
+
+.icon {
+    position: absolute;
+    left: 11px; /* Posición del icono */
+    top: 11px; /* Posición del icono */
+    color: grey;
+}
+
+.btns{
+    margin: 2rem 1.5rem 1rem 0;
+    width: 40%;
 }
