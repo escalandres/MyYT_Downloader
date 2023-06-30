@@ -29,10 +29,6 @@
     text-align: center;
 }
 
-.spinne{
-    font-size: 100px;
-}
-
 .responsive-btn{
     display: flex;
     flex-wrap: wrap;
@@ -79,5 +75,12 @@ body{
 }
 
 .spinne{
-    border: 3px solid;
+    font-size: 100px;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }

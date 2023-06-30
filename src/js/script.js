@@ -51,6 +51,10 @@ function ocultarPanel() {
 
 
 //--------------------- Eventos-----------------------
+document.addEventListener("DOMContentLoaded", function() {
+    // Código a ejecutar cuando el DOM ha sido cargado completamente
+    // mostrarPanel();
+  });
 themeToggle.addEventListener('click', function() {
     darkTheme = !darkTheme;
     body.classList.toggle('dark-theme');
