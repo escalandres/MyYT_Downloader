@@ -123,7 +123,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
         url: document.getElementById('videoUrl').value,
         option: document.querySelector('input[name="downloadOptions"]:checked').value
     }
-    fetch('http://localhost:3000/search-video', {
+    fetch('http://localhost:3000/download-video', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

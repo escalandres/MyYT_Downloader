@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const appex = express();
 const { checkVideoExists } = require('./modules/checkVideo');
+const { downloader } = require('./modules/downloader');
 const url = require('url')
 const cors = require('cors');
 const port = 3000;
@@ -69,6 +70,18 @@ appex.post('/search-video', async (req, res) => {
   }
   else{
     res.status(404).send({message: 'El video no existe. Ingrese una url válida', code: 404, estatus: false})
+  }
+});
+
+appex.post('/download-video', async (req, res) => {
+  console.log('download-video')
+  const datos = req.body;
+  const result = await downloader(datos.url,datos.option)
+  if(result){
+    res.status(200).send({ message: 'Descarga completada', code: 200, estatus: true });
+  }
+  else{
+    res.status(404).send({message: 'Ocurrió un error durante la descarga. Inténtelo más tarde', code: 500, estatus: false})
   }
 });
 
