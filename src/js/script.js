@@ -155,11 +155,13 @@ function test(){
     fetch('http://localhost:3000/test')
     .then(response => response.json())
     .then(data => {
+        hideLoading();
         console.log(data); // Aquí puedes hacer algo con los datos recibidos del servidor
         hideLoading()
         toast(data.message)
     })
     .catch(error => {
+        hideLoading();
         console.error('Error al realizar la solicitud:', error);
         toast(error)
     });
