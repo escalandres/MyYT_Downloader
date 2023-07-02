@@ -95,7 +95,7 @@ document.getElementById('search-video__form').addEventListener('submit', functio
     const url = form.elements.videoUrl.value;
     toast(url)
     // Realizar la solicitud POST
-    fetch('http://localhost:3000/search-video', {
+    fetch('http://localhost:9999/search-video', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
         url: document.getElementById('videoUrl').value,
         option: document.querySelector('input[name="downloadOptions"]:checked').value
     }
-    fetch('http://localhost:3000/download-video', {
+    fetch('http://localhost:9999/download-video', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -159,7 +159,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
 function test(){
     showLoading();
 
-    fetch('http://localhost:3000/test')
+    fetch('http://localhost:9999/test')
     .then(response => response.json())
     .then(data => {
         hideLoading();
