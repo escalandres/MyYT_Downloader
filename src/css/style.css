@@ -102,6 +102,9 @@ body{
 }
 
 .btns{
-    margin: 2rem 1.5rem 1rem 0;
-    width: 47.5%;
+    margin: 2rem 0 0 0;
+    width: 49%;
 }
+/* #searchBtn{
+    margin-right: 1.3rem;
+} */

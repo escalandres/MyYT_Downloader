@@ -1,6 +1,8 @@
 const { google } = require('googleapis');
 const youtube = google.youtube('v3');
 
+require('dotenv').config();
+
 function getYouTubeVideoId(url) {
   const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|watch\?v=|v\/)|youtu\.be\/)([^&?\/ ]{11})/;
   const match = url.match(regExp);
@@ -8,13 +10,13 @@ function getYouTubeVideoId(url) {
 }
 
 
-async function checkVideoExists(video, apiKey) {
-  let videoId = getYouTubeVideoId(video)
+async function checkVideoExists(videoUrl) {
+  let videoId = getYouTubeVideoId(videoUrl)
   try {
     const res = await youtube.videos.list({
     part: 'id',
     id: videoId,
-    key: apiKey
+    key: process.env.V3API
     });
     return res.data.items.length > 0;
   } catch (error) {
@@ -22,17 +24,28 @@ async function checkVideoExists(video, apiKey) {
     return false;
   }
 }
-  
-  // // Ejemplo de uso
-  // const videoId = 'TuVideoID'; // Reemplaza con el ID del video que deseas comprobar
-  // const apiKey = 'TuClaveDeAPI'; // Reemplaza con tu clave de API de YouTube Data v3
-  
-  // checkVideoExists(videoId, apiKey)
-  //   .then(exists => {
-  //     console.log(`El video ${videoId} existe: ${exists}`);
-  //   });  
 
-// module.exports = checkVideoExists;
+async function getVideoName(videoUrl) {
+  let videoName = 'default';
+  try {
+    let videoId = getYouTubeVideoId(videoUrl)
+    const response = await youtube.videos.list({
+      part: 'snippet',
+      id: videoId,
+      key: process.env.V3API
+    });
+
+    const video = response.data.items[0];
+    const nombreVideo = video.snippet.title;
+    videoName = nombreVideo;
+    console.log('Nombre del video:', nombreVideo);
+  } catch (error) {
+    console.error('Error al obtener el nombre del video:', error.message);
+    
+  }
+  return data;
+}
 module.exports = {
-  checkVideoExists
+  checkVideoExists,
+  getVideoName
 }

@@ -2,12 +2,30 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const { PythonShell } = require('python-shell');
 const path = require('path');
+const { getVideoName } = require('./checkVideo');
 
-async function downloadVideo(videoUrl) {
+function deleteTempFile(file){
+    let data = {
+        estatus: false,
+        error: ''
+    }
+    fs.unlink(file, (error) => {
+        if (error) {
+            console.error('Error al borrar el archivo:', error);
+            data.error = 'Error al borrar el archivo:', error;
+        } else {
+            console.log('Archivo borrado correctamente');
+            data.estatus = true;
+        }
+    });
+    return data
+}
+
+async function downloadVideo(videoUrl, videoName) {
     console.log('Descargando video...')
     return new Promise((resolve, reject) => {
         ytdl(videoUrl)
-            .pipe(fs.createWriteStream('video.mp4'))
+            .pipe(fs.createWriteStream(videoName + '.mp4'))
             .on('finish', () => {
             console.log('Video descargado!');
             resolve(true);
@@ -19,7 +37,7 @@ async function downloadVideo(videoUrl) {
     });
 }
     
-async function downloadAudio(videoUrl) {
+async function downloadAudio(videoUrl, videoName) {
     console.log('Descargando audio...')
     return new Promise((resolve, reject) => {
         const options = {
@@ -28,7 +46,7 @@ async function downloadAudio(videoUrl) {
             format: 'mp3'
         };
         ytdl(videoUrl, options)
-            .pipe(fs.createWriteStream('audio.mp3'))
+            .pipe(fs.createWriteStream( videoName + '.mp3'))
             .on('finish', () => {
             console.log('Audio descargado!');
             resolve(true);
@@ -40,33 +58,10 @@ async function downloadAudio(videoUrl) {
     });
 }
 
-// async function downloadAudio() {
-//     let res = false;
-//     try {
-//         const options = {
-//             filter: 'audioonly',
-//             quality: 'highestaudio',
-//             format: 'mp3'
-//         };
-//         await ytdl(videoUrl, options)
-//             .pipe(fs.createWriteStream('audio.mp3'))
-//             .on('finish', () => {
-//             console.log('Audio descargado!');
-//             });
-//         console.log('Descarga completada');
-//         res = true
-//     } catch (error) {
-//         console.error('Error en la descarga:', error);
-//     }
-//     return res
-// }
-
-async function combineFiles(){
-    console.log('Combinando archivos...')
-    console.log(path.join(__dirname, 'python'))
-    const videoFile = 'video.mp4';
-    const audioFile = 'audio.mp3';
-    const outputFile = 'output.mp4';
+async function combineFiles(videoName){
+    const videoFile = '/downloads/video.mp4';
+    const audioFile = '/downloads/audio.mp3';
+    const outputFile = '/downloads/' + videoName + '.mp4';
     try{
         return new Promise((resolve, reject) => {
             const options = {
@@ -93,22 +88,25 @@ async function combineFiles(){
 
 async function downloader(videoUrl, option){
     let result = false;
+    const videoName = getVideoName(videoUrl)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl)
+        const video = await downloadVideo(videoUrl, videoName)
         result = video;
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl)
+        const audio = await downloadAudio(videoUrl, videoName)
         result = audio;
     }
     else if(option === 'va'){
-        const video = await downloadVideo(videoUrl)
-        const audio = await downloadAudio(videoUrl)
+        const video = await downloadVideo(videoUrl, 'video')
+        const audio = await downloadAudio(videoUrl, 'audio')
         if(video && audio){
-            const combine = await combineFiles()
+            const combine = await combineFiles(videoName)
             if(combine){
                 console.log('Archivos combinados !');
                 result = true;
+                // deleteTempFile('/downloads/video.mp4');
+                // deleteTempFile('/downloads/audio.mp3');
             }
         }
     }

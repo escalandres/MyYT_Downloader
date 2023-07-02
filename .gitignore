@@ -1,1 +1,5 @@
 node_modules/
+build/
+dist/
+youtubedownloader-win32-x64/
+downloads/

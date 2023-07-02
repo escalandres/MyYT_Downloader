@@ -19,7 +19,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: __dirname + '/img/favicon.ico',
+    icon: __dirname + '/img/favicon.ico' ?? '/src/img/favicon.ico',
     iconSize: { width: 32, height: 32 },
     title: 'Downloader',
   });
