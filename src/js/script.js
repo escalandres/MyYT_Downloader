@@ -25,7 +25,7 @@ function notification(title,message){
             // Cerrar la notificación después de 2 segundos
             setTimeout(function() {
                 notification.close();
-            }, 2000);
+            }, 3000);
         }
         });
     }
@@ -142,6 +142,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
         // Hacer algo con la respuesta recibida
         hideLoading();
         toast(data.message);
+        notification('MyYT_Downloader', 'Descarga completada')
         cleanInputs();
     })
     .catch(error => {

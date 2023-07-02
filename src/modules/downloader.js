@@ -5,6 +5,17 @@ const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile } = require('./checkPath');
 const { exec } = require('child_process');
 
+// Ruta al directorio del entorno virtual
+const virtualEnvPath = path.join(__dirname, 'python', 'myenv');
+
+// Comando para activar el entorno virtual (depende del sistema operativo)
+const activateCommand = process.platform === 'win32' ? 'Scripts/activate' :  'bin/activate';
+
+// Comando completo para activar el entorno virtual
+const activateEnvCommand = `${virtualEnvPath}/${activateCommand}`;
+
+const pythonScript = path.join(__dirname,'python','combine.py');
+
 function deleteTempFile(file){
     let data = {
         estatus: false,
@@ -69,15 +80,28 @@ async function combineFiles(){
         args: [videoFile, audioFile, outputFile],
     };
     return new Promise((resolve, reject) => {
-        exec('python src/modules/python/combine.py', (error, stdout, stderr) => {
+        exec(activateEnvCommand, (error, stdout, stderr) => {
             if (error) {
                 // console.error('Error durante la ejecución del script:', error);
+                console.error(`Error al activar el entorno virtual: ${error}`);
                 reject(error);
+                return;
             } else {
                 // console.log('Resultados:', stdout);
-                resolve(true);
+                console.log('Entorno virtual activado correctamente.');
+                console.log('Combinando archivos..')
+                exec(`python ${pythonScript}`, (error, stdout, stderr) => {
+                    if (error) {
+                        // console.error('Error durante la ejecución del script:', error);
+                        reject(error);
+                    } else {
+                        // console.log('Resultados:', stdout);
+                        resolve(true);
+                    }
+                });
             }
         });
+        
     });
 }
 

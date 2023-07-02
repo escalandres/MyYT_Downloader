@@ -1,4 +1,4 @@
-const { app, BrowserWindow, nativeImage, ipcMain } = require('electron');
+const { app, BrowserWindow, nativeImage, ipcMain, Menu } = require('electron');
 const path = require('path');
 const express = require('express');
 const appex = express();
@@ -8,6 +8,15 @@ const url = require('url')
 const cors = require('cors');
 const port = 3000;
 appex.use(cors()); // Habilitar CORS
+
+if(process.env.NODE_ENV){
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, '../node_modules', '.bin', 'electron')
+  })
+}
+
+
+
 function createWindow() {
   // const iconPath = path.join(__dirname, 'download.svg'); // Ruta del archivo .svg
   // console.log(iconPath)
@@ -30,7 +39,24 @@ function createWindow() {
     protocol: 'file',
     slashes: true
   }))
+  const mainMenu = Menu.buildFromTemplate(templateMenu);
+  Menu.setApplicationMenu(mainMenu);
 }
+
+const templateMenu = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Test',
+        accelerator: 'Ctrl+T',
+        click(){
+          alert('Test')
+        }
+      }
+    ]
+  }
+]
 
 app.whenReady().then(() => {
   createWindow();
