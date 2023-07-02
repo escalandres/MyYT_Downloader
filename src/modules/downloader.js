@@ -1,9 +1,9 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-const { PythonShell } = require('python-shell');
 const path = require('path');
 const { getVideoName } = require('./checkVideo');
-const { checkPath } = require('./checkPath');
+const { checkPath, moveFile } = require('./checkPath');
+const { exec } = require('child_process');
 
 function deleteTempFile(file){
     let data = {
@@ -59,61 +59,60 @@ async function downloadAudio(videoUrl, videoName) {
     });
 }
 
-async function combineFiles(videoName){
-    const videoFile = '/downloads/video.mp4';
-    const audioFile = '/downloads/audio.mp3';
-    const outputFile = '/downloads/' + videoName + '.mp4';
-    try{
-        return new Promise((resolve, reject) => {
-            const options = {
-                scriptPath: path.join(__dirname, 'python'),
-                args: [videoFile, audioFile, outputFile],
-            };
-            PythonShell.run('combine.py', options, (err, results) => {
-                if (err) throw err;
-                console.log('El archivo combinado se ha generado con éxito:', results);
-            })
-            
-            resolve(true);
-            // .on('error', (error) => {
-            //     console.error('Error en la descarga:', error);
-            //     reject(false);
-            // });
+async function combineFiles(){
+    console.log('Combinando archivos...')
+    const videoFile = './temp/video.mp4';
+    const audioFile = './temp/audio.mp3';
+    const outputFile = './temp/output.mp4';
+    const options = {
+        scriptPath: path.join(__dirname, 'python'),
+        args: [videoFile, audioFile, outputFile],
+    };
+    return new Promise((resolve, reject) => {
+        exec('python src/modules/python/combine.py', (error, stdout, stderr) => {
+            if (error) {
+                // console.error('Error durante la ejecución del script:', error);
+                reject(error);
+            } else {
+                // console.log('Resultados:', stdout);
+                resolve(true);
+            }
         });
-    }
-    catch (error) {
-        console.error('Ocurrió un error:', error);
-        return false
-    }
+    });
 }
 
 async function downloader(videoUrl, option){
     let result = false;
     let videoName = await getVideoName(videoUrl)
     console.log('video: ' + videoName)
-    videoName = checkPath(videoName)
-    console.log('Path: ' + videoName)
+    // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl, videoName)
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName))
         result = video;
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl, videoName)
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName))
         result = audio;
     }
     else if(option === 'va'){
-        const video = await downloadVideo(videoUrl, 'video')
-        const audio = await downloadAudio(videoUrl, 'audio')
+        const video = await downloadVideo(videoUrl, './temp/video')
+        const audio = await downloadAudio(videoUrl, './temp/audio')
         if(video && audio){
-            const combine = await combineFiles(videoName)
-            if(combine){
-                console.log('Archivos combinados !');
-                result = true;
-                // deleteTempFile('/downloads/video.mp4');
-                // deleteTempFile('/downloads/audio.mp3');
+            try {
+                const resultado = await combineFiles();
+                if(resultado){
+                    moveFile('./temp/', 'output.mp4', videoName);
+                    deleteTempFile('./temp/video.mp4')
+                    deleteTempFile('./temp/audio.mp3')
+                    result = resultado;
+                }
+            } catch (error) {
+                console.error('error: ' + error);
+                result = false;
             }
         }
     }
+    return result
 }
 
 module.exports = {

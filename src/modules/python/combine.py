@@ -1,8 +1,8 @@
 from moviepy.editor import VideoFileClip, AudioFileClip
 
-video_file = "video.mp4"
-audio_file = "audio.mp3"
-output_file = "output.mp4"
+video_file = "./temp/video.mp4"
+audio_file = "./temp/audio.mp3"
+output_file = "./temp/output.mp4"
 
 video = VideoFileClip(video_file)
 audio = AudioFileClip(audio_file)
