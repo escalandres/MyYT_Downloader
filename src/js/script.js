@@ -52,6 +52,12 @@ function hideLoading() {
 // Ejemplo de uso
 //mostrarPanel();
 
+function cleanInputs(){
+    document.getElementById('videoUrl').value = '';
+    document.getElementById('downloadBtn').disabled = true;
+    document.getElementById('options-container').style.display = 'none';
+}
+
 
 //--------------------- Eventos-----------------------
 document.addEventListener("DOMContentLoaded", function() {
@@ -136,7 +142,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
         // Hacer algo con la respuesta recibida
         hideLoading();
         toast(data.message);
-        
+        cleanInputs();
     })
     .catch(error => {
         hideLoading()

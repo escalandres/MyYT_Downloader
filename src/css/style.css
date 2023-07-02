@@ -8,7 +8,7 @@
     color: var(--letter-color) !important;
 }
 
-.dark-theme .navbar {
+.dark-theme .navbar, .dark-theme .toast, .dark-theme .toast-header {
     background-color: rgb(35, 37, 41) !important;
     color: var(--letter-color) !important;
 }
