@@ -43,7 +43,7 @@ async function getVideoName(videoUrl) {
     console.error('Error al obtener el nombre del video:', error.message);
     
   }
-  return data;
+  return videoName;
 }
 module.exports = {
   checkVideoExists,

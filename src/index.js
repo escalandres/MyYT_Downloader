@@ -21,7 +21,7 @@ function createWindow() {
     },
     icon: __dirname + '/img/favicon.ico' ?? '/src/img/favicon.ico',
     iconSize: { width: 32, height: 32 },
-    title: 'Downloader',
+    title: 'MyYT_Downloader',
   });
 
   // mainWindow.loadFile(__dirname + '/views/index.html');

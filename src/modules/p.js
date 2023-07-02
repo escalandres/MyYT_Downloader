@@ -1,33 +1,119 @@
-const { google } = require('googleapis');
-const youtube = google.youtube('v3');
+const fs = require('fs');
+const ytdl = require('ytdl-core');
+const { PythonShell } = require('python-shell');
+const path = require('path');
+const { getVideoName } = require('./checkVideo');
+const { checkPath } = require('./checkPath');
 
-require('dotenv').config();
-
-function getYouTubeVideoId(url) {
-  const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|watch\?v=|v\/)|youtu\.be\/)([^&?\/ ]{11})/;
-  const match = url.match(regExp);
-  return match && match[1];
+function deleteTempFile(file){
+    let data = {
+        estatus: false,
+        error: ''
+    }
+    fs.unlink(file, (error) => {
+        if (error) {
+            console.error('Error al borrar el archivo:', error);
+            data.error = 'Error al borrar el archivo:', error;
+        } else {
+            console.log('Archivo borrado correctamente');
+            data.estatus = true;
+        }
+    });
+    return data
 }
 
-async function getVideoName(videoUrl) {
-    try {
-      let videoId = getYouTubeVideoId(videoUrl)
-      const response = await youtube.videos.list({
-        part: 'snippet',
-        id: videoId,
-        key: process.env.V3API
-      });
-  
-      const video = response.data.items[0];
-      const nombreVideo = video.snippet.title;
-      console.log('Nombre del video:', nombreVideo);
-    } catch (error) {
-      console.error('Error al obtener el nombre del video:', error.message);
+async function downloadVideo(videoUrl, videoName) {
+    console.log('Descargando video...')
+    return new Promise((resolve, reject) => {
+        ytdl(videoUrl)
+            .pipe(fs.createWriteStream(videoName + '.mp4'))
+            .on('finish', () => {
+            console.log('Video descargado!');
+            resolve(true);
+            })
+        .on('error', (error) => {
+            console.error('Error en la descarga:', error);
+            reject(false);
+        });
+    });
+}
+    
+async function downloadAudio(videoUrl, videoName) {
+    console.log('Descargando audio...')
+    return new Promise((resolve, reject) => {
+        const options = {
+            filter: 'audioonly',
+            quality: 'highestaudio',
+            format: 'mp3'
+        };
+        ytdl(videoUrl, options)
+            .pipe(fs.createWriteStream( videoName + '.mp3'))
+            .on('finish', () => {
+            console.log('Audio descargado!');
+            resolve(true);
+            })
+        .on('error', (error) => {
+            console.error('Error en la descarga:', error);
+            reject(false);
+        });
+    });
+}
+
+async function combineFiles(videoName){
+    const videoFile = '/downloads/video.mp4';
+    const audioFile = '/downloads/audio.mp3';
+    const outputFile = '/downloads/' + videoName + '.mp4';
+    try{
+        return new Promise((resolve, reject) => {
+            const options = {
+                scriptPath: path.join(__dirname, 'python'),
+                args: [videoFile, audioFile, outputFile],
+            };
+            PythonShell.run('combine.py', options, (err, results) => {
+                if (err) throw err;
+                console.log('El archivo combinado se ha generado con éxito:', results);
+            })
+            
+            resolve(true);
+            // .on('error', (error) => {
+            //     console.error('Error en la descarga:', error);
+            //     reject(false);
+            // });
+        });
     }
-  }
+    catch (error) {
+        console.error('Ocurrió un error:', error);
+        return false
+    }
+}
 
-  async function main(){
-    await getVideoName('https://www.youtube.com/watch?v=ffRgM6Jkg0I')    
-  }
+async function downloader(videoUrl, option){
+    let result = false;
+    let videoName = await getVideoName(videoUrl)
+    console.log('video: ' + videoName)
+    videoName = checkPath(videoName)
+    console.log('Path: ' + videoName)
+    if(option === 'v'){
+        const video = await downloadVideo(videoUrl, videoName)
+        result = video;
+    }
+    else if(option === 'a'){
+        const audio = await downloadAudio(videoUrl, videoName)
+        result = audio;
+    }
+    else if(option === 'va'){
+        const video = await downloadVideo(videoUrl, 'video')
+        const audio = await downloadAudio(videoUrl, 'audio')
+        if(video && audio){
+            const combine = await combineFiles(videoName)
+            if(combine){
+                console.log('Archivos combinados !');
+                result = true;
+                // deleteTempFile('/downloads/video.mp4');
+                // deleteTempFile('/downloads/audio.mp3');
+            }
+        }
+    }
+}
 
-  main()
+downloader('https://www.youtube.com/watch?v=8nKJCNgiVhc','a')

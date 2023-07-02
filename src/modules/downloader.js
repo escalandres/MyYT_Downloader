@@ -3,6 +3,7 @@ const ytdl = require('ytdl-core');
 const { PythonShell } = require('python-shell');
 const path = require('path');
 const { getVideoName } = require('./checkVideo');
+const { checkPath } = require('./checkPath');
 
 function deleteTempFile(file){
     let data = {
@@ -88,7 +89,10 @@ async function combineFiles(videoName){
 
 async function downloader(videoUrl, option){
     let result = false;
-    const videoName = getVideoName(videoUrl)
+    let videoName = await getVideoName(videoUrl)
+    console.log('video: ' + videoName)
+    videoName = checkPath(videoName)
+    console.log('Path: ' + videoName)
     if(option === 'v'){
         const video = await downloadVideo(videoUrl, videoName)
         result = video;
