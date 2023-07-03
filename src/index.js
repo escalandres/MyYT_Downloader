@@ -7,7 +7,7 @@ const cors = require('cors');
 const { checkVideoExists } = require('./modules/checkVideo');
 const { downloader } = require('./modules/downloader');
 const { guardarEnLog } = require('./modules/fntLog')
-
+const { exec } = require('child_process');
 const port = 9999;
 appex.use(cors()); // Habilitar CORS
 
@@ -72,7 +72,16 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Seccion de Express
+// // Seccion de Express
+// En algún lugar de tu código donde quieras ejecutar server.js
+// exec('node server.js', (error, stdout, stderr) => {
+//   if (error) {
+//     console.error(`Error al ejecutar server.js: ${error}`);
+//     return;
+//   }
+//   console.log(`server.js se ha ejecutado correctamente.`);
+// });
+
 
 appex.use(express.urlencoded({ extended: true }));
 appex.use(express.json());
@@ -86,7 +95,6 @@ appex.post('/search-video', async (req, res) => {
   console.log('search-video')
   // Obtener los datos recibidos en la solicitud POST
   const datos = req.body;
-  
   // Hacer algo con los datos recibidos
   // console.log('Datos recibidos:', datos);
   // console.log('url:', datos.url);
@@ -98,6 +106,7 @@ appex.post('/search-video', async (req, res) => {
   }
   else{
     res.status(404).send({message: 'El video no existe. Ingrese una url válida', code: 404, estatus: false})
+    guardarEnLog('index.js', 'appex.post(/search-video)', 'El video no existe. Ingrese una url válida')
   }
 });
 
@@ -110,6 +119,7 @@ appex.post('/download-video', async (req, res) => {
   }
   else{
     res.status(404).send({message: 'Ocurrió un error durante la descarga. Inténtelo más tarde', code: 500, estatus: false})
+    guardarEnLog('index.js', 'appex.post(/download-video)', 'Ocurrió un error durante la descarga. Inténtelo más tarde')
   }
 });
 

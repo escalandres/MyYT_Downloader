@@ -1,0 +1,13 @@
+[3/7/2023, 11:27:31] - "Archivo: downloader.js. Metodo: combineFiles. Mensaje: Error durante la ejecución del script combine.py: Error: Command failed: python C:\Users\aescala\Documents\VSC\MyYT_Downloader\src\modules\python\combine.py
+Traceback (most recent call last):
+  File "C:\Users\aescala\Documents\VSC\MyYT_Downloader\src\modules\python\combine.py", line 1, in <module>
+    from moviepy.editor import VideoFileClip, AudioFileClip
+ModuleNotFoundError: No module named 'moviepy'
+"
+[3/7/2023, 11:27:31] - "Archivo: index.js. Metodo: appex.post(/download-video). Mensaje: Ocurrió un error durante la descarga. Inténtelo más tarde"
+[3/7/2023, 11:27:31] - "Archivo: downloader.js. Metodo: downloader. Mensaje: Error: Error: Command failed: python C:\Users\aescala\Documents\VSC\MyYT_Downloader\src\modules\python\combine.py
+Traceback (most recent call last):
+  File "C:\Users\aescala\Documents\VSC\MyYT_Downloader\src\modules\python\combine.py", line 1, in <module>
+    from moviepy.editor import VideoFileClip, AudioFileClip
+ModuleNotFoundError: No module named 'moviepy'
+"

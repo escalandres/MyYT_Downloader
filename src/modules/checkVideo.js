@@ -21,6 +21,7 @@ async function checkVideoExists(videoUrl) {
     return res.data.items.length > 0;
   } catch (error) {
     console.error('Error al verificar el video:', error);
+    guardarEnLog('checkVideo.js', 'checkVideoExists', 'Error al verificar el video: ' + error)
     return false;
   }
 }
@@ -41,7 +42,7 @@ async function getVideoName(videoUrl) {
     console.log('Nombre del video:', nombreVideo);
   } catch (error) {
     console.error('Error al obtener el nombre del video:', error.message);
-    
+    guardarEnLog('checkVideo.js', 'getVideoName', 'Error al obtener el nombre del video: ' + error)
   }
   return videoName;
 }

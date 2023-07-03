@@ -1,9 +1,9 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const path = require('path');
-const { exec } = require('child_process');
 const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile } = require('./checkPath');
+const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 // Ruta al directorio del entorno virtual
 const virtualEnvPath = path.join(__dirname, 'python', 'myenv');
@@ -23,8 +23,9 @@ function deleteTempFile(file){
     }
     fs.unlink(file, (error) => {
         if (error) {
-            console.error('Error al borrar el archivo:', error);
-            data.error = 'Error al borrar el archivo:', error;
+            console.error('Error al borrar el archivo: ', error);
+            data.error = 'Error al borrar el archivo: ' + error;
+            guardarEnLog('downloader.js', 'deleteTempFile', 'Error al borrar el archivo:' + error)
         } else {
             console.log('Archivo borrado correctamente');
             data.estatus = true;
@@ -43,7 +44,8 @@ async function downloadVideo(videoUrl, videoName) {
             resolve(true);
             })
         .on('error', (error) => {
-            console.error('Error en la descarga:', error);
+            console.error('Error en la descarga: ', error);
+            guardarEnLog('downloader.js', 'downloadVideo', 'Error en la descarga: ' + error)
             reject(false);
         });
     });
@@ -65,6 +67,7 @@ async function downloadAudio(videoUrl, videoName) {
             })
         .on('error', (error) => {
             console.error('Error en la descarga:', error);
+            guardarEnLog('downloader.js', 'downloadAudio', 'Error en la descarga: ' + error)
             reject(false);
         });
     });
@@ -84,6 +87,7 @@ async function combineFiles(){
             if (error) {
                 // console.error('Error durante la ejecución del script:', error);
                 console.error(`Error al activar el entorno virtual: ${error}`);
+                guardarEnLog('downloader.js', 'combineFiles', 'Error al activar el entorno virtual: ' + error)
                 reject(error);
                 return;
             } else {
@@ -93,6 +97,7 @@ async function combineFiles(){
                 exec(`python ${pythonScript}`, (error, stdout, stderr) => {
                     if (error) {
                         // console.error('Error durante la ejecución del script:', error);
+                        guardarEnLog('downloader.js', 'combineFiles', 'Error durante la ejecución del script combine.py: ' + error)
                         reject(error);
                     } else {
                         // console.log('Resultados:', stdout);
@@ -132,6 +137,7 @@ async function downloader(videoUrl, option){
                 }
             } catch (error) {
                 console.error('error: ' + error);
+                guardarEnLog('downloader.js', 'downloader', 'Error: ' + error)
                 result = false;
             }
         }

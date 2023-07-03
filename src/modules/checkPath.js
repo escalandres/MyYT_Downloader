@@ -25,7 +25,8 @@ function moveFile(sourceFolder, file, videoName){
 
     fs.rename(rutaArchivoOrigen, rutaArchivoDestino, (error) => {
     if (error) {
-        console.error('Error al mover el archivo:', error);
+        console.error('Error al mover el archivo: ', error);
+        guardarEnLog('checkPath.js', 'moveFile', 'Error al mover el archivo: ' + error)
     } else {
         console.log('Archivo movido correctamente');
     }

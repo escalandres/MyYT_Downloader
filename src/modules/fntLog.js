@@ -9,7 +9,7 @@ function getDate(){
     const anio = fechaActual.getFullYear();
 
     console.log(`Fecha actual: ${dia}/${mes}/${anio}`);
-    return `${dia}/${mes}/${anio}`
+    return `${dia}_${mes}_${anio}`
 }
 
 function guardarEnLog(archivo,metodo,mensaje) {
