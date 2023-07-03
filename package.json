@@ -1,7 +1,7 @@
 {
   "name": "MyYT_Downloader",
   "version": "1.1.6",
-  "description": "A youtube videos downlader",
+  "description": "A youtube videos downloader",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
