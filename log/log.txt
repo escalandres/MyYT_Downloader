@@ -1,0 +1,2 @@
+[2/7/2023, 18:27:24] - "Mensaje de Error..."
+[2/7/2023, 18:42:38] - "Archivo: fntLog.js. Metodo: guardarEnLog. Mensaje: Mensaje de Error..."
