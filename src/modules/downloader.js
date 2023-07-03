@@ -1,10 +1,10 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const path = require('path');
+const { exec } = require('child_process');
 const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile } = require('./checkPath');
-const { exec } = require('child_process');
-
+const { guardarEnLog } = require('./fntLog')
 // Ruta al directorio del entorno virtual
 const virtualEnvPath = path.join(__dirname, 'python', 'myenv');
 

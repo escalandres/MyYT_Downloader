@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
 const youtube = google.youtube('v3');
-
+const { guardarEnLog } = require('./fntLog')
 require('dotenv').config();
 
 function getYouTubeVideoId(url) {

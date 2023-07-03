@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { guardarEnLog } = require('./fntLog')
 
 function checkPath(){
     const rutaCarpetaDocuments = path.join(require('os').homedir(), 'Documents');

@@ -2,10 +2,12 @@ const { app, BrowserWindow, nativeImage, ipcMain, Menu } = require('electron');
 const path = require('path');
 const express = require('express');
 const appex = express();
-const { checkVideoExists } = require('./modules/checkVideo');
-const { downloader } = require('./modules/downloader');
 const url = require('url')
 const cors = require('cors');
+const { checkVideoExists } = require('./modules/checkVideo');
+const { downloader } = require('./modules/downloader');
+const { guardarEnLog } = require('./modules/fntLog')
+
 const port = 9999;
 appex.use(cors()); // Habilitar CORS
 
