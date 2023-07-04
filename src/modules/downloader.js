@@ -116,12 +116,19 @@ async function downloader(videoUrl, option){
     console.log('video: ' + videoName)
     // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName))
-        result = video;
+        const video = await downloadVideo(videoUrl, './temp/video')
+        if(video){
+            moveFile('./temp/', 'video.mp4', videoName + '.mp4');
+            result = video;
+        }
+        
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName))
-        result = audio;
+        const audio = await downloadAudio(videoUrl, './temp/audio')
+        if(audio){
+            moveFile('./temp/', 'audio.mp3', videoName + '.mp3');
+            result = audio;
+        }
     }
     else if(option === 'va'){
         const video = await downloadVideo(videoUrl, './temp/video')
@@ -130,7 +137,7 @@ async function downloader(videoUrl, option){
             try {
                 const resultado = await combineFiles();
                 if(resultado){
-                    moveFile('./temp/', 'output.mp4', videoName);
+                    moveFile('./temp/', 'output.mp4', videoName + '.mp4');
                     deleteTempFile('./temp/video.mp4')
                     deleteTempFile('./temp/audio.mp3')
                     result = resultado;

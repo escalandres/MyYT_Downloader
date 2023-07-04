@@ -6,15 +6,16 @@ const { checkPath, moveFile } = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 // Ruta al directorio del entorno virtual
-const virtualEnvPath = path.join(__dirname, 'python', 'myenv');
+const ejecutable = path.join(__dirname, 'python/dist');
+const command = `cd "${ejecutable}" && combine.exe`
 
 // Comando para activar el entorno virtual (depende del sistema operativo)
-const activateCommand = process.platform === 'win32' ? 'Scripts/activate' :  'bin/activate';
+// const activateCommand = process.platform === 'win32' ? 'Scripts/activate' :  'bin/activate';
 
 // Comando completo para activar el entorno virtual
-const activateEnvCommand = `${virtualEnvPath}/${activateCommand}`;
+// const activateEnvCommand = `${virtualEnvPath}/${activateCommand}`;
 
-const pythonScript = path.join(__dirname,'python','combine.py');
+// const pythonScript = path.join(__dirname,'python','combine.py');
 
 function deleteTempFile(file){
     let data = {
@@ -82,28 +83,19 @@ async function combineFiles(){
         scriptPath: path.join(__dirname, 'python'),
         args: [videoFile, audioFile, outputFile],
     };
+
+    console.log('Combinando archivos..')
     return new Promise((resolve, reject) => {
-        exec(activateEnvCommand, (error, stdout, stderr) => {
+        exec(command,(error, stdout, stderr) => {
             if (error) {
                 // console.error('Error durante la ejecución del script:', error);
-                console.error(`Error al activar el entorno virtual: ${error}`);
-                guardarEnLog('p.js', 'combineFiles', 'Error al activar el entorno virtual: ' + error)
+                console.error(`Error en la ruta: `,error);
+                // guardarEnLog('p.js', 'combineFiles', 'Error durante la ejecucion de combine.exe: ' + error)
                 reject(error);
                 return;
             } else {
-                // console.log('Resultados:', stdout);
-                console.log('Entorno virtual activado correctamente.');
-                console.log('Combinando archivos..')
-                exec(`python ${pythonScript}`, (error, stdout, stderr) => {
-                    if (error) {
-                        // console.error('Error durante la ejecución del script:', error);
-                        guardarEnLog('p.js', 'combineFiles', 'Error durante la ejecución del script combine.py: ' + error)
-                        reject(error);
-                    } else {
-                        // console.log('Resultados:', stdout);
-                        resolve(true);
-                    }
-                });
+                console.log('Archivos combinados!');
+                resolve(true);
             }
         });
         
@@ -124,15 +116,15 @@ async function downloader(videoUrl, option){
         result = audio;
     }
     else if(option === 'va'){
-        const video = await downloadVideo(videoUrl, './temp/video')
-        const audio = await downloadAudio(videoUrl, './temp/audio')
+        const video = await downloadVideo(videoUrl, './src/modules/python/dist/video')
+        const audio = await downloadAudio(videoUrl, './src/modules/python/dist/audio')
         if(video && audio){
             try {
                 const resultado = await combineFiles();
                 if(resultado){
-                    moveFile('./temp/', 'output.mp4', videoName);
-                    deleteTempFile('./temp/video.mp4')
-                    deleteTempFile('./temp/audio.mp3')
+                    moveFile('./src/modules/python/dist', 'output.mp4', videoName + '.mp4');
+                    deleteTempFile('./src/modules/python/dist/video.mp4')
+                    deleteTempFile('./src/modules/python/dist/audio.mp3')
                     result = resultado;
                 }
             } catch (error) {
@@ -146,5 +138,6 @@ async function downloader(videoUrl, option){
 }
 
 // downloader('https://www.youtube.com/watch?v=8nKJCNgiVhc','va')
-downloader('https://www.youtube.com/watch?v=uCAcJw_NJBE','va')
+// downloader('https://www.youtube.com/watch?v=uCAcJw_NJBE','va')
+downloader('https://www.youtube.com/watch?v=ClcY_TaqKqY','va')
 

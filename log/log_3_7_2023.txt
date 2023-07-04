@@ -11,3 +11,96 @@ Traceback (most recent call last):
     from moviepy.editor import VideoFileClip, AudioFileClip
 ModuleNotFoundError: No module named 'moviepy'
 "
+[3/7/2023, 21:44:23] - "Archivo: downloader.js. Metodo: downloadVideo. Mensaje: Error en la descarga: Error: ENOENT: no such file or directory, open 'C:\Users\andre\Documents\MyYT_Downloader\La Bachata - MTZ Manuel Turizo | Video Oficial.mp4'"
+[3/7/2023, 21:50:03] - "Archivo: downloader.js. Metodo: downloadVideo. Mensaje: Error en la descarga: Error: ENOENT: no such file or directory, open 'C:\Users\andre\Documents\MyYT_Downloader\La Bachata - MTZ Manuel Turizo | Video Oficial.mp4'"
+[3/7/2023, 21:52:01] - "Archivo: checkPath.js. Metodo: moveFile. Mensaje: Error al mover el archivo: Error: ENOENT: no such file or directory, rename 'C:\Users\andre\Documents\GitHub\MyYT_Downloader\temp\video.mp4' -> 'C:\Users\andre\Documents\MyYT_Downloader\La Bachata - MTZ Manuel Turizo | Video Oficial.mp4'"
+[3/7/2023, 23:03:58] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\combine.exe
+Traceback (most recent call last):
+  File "combine.py", line 21, in <module>
+  File "moviepy\video\io\VideoFileClip.py", line 88, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 35, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 270, in ffmpeg_parse_infos
+OSError: MoviePy error: the file ../../../../temp/video.mp4 could not be found!
+Please check that you entered the correct path.
+[22872] Failed to execute script 'combine' due to unhandled exception!
+"
+[3/7/2023, 23:04:29] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\combine.exe
+Traceback (most recent call last):
+  File "combine.py", line 21, in <module>
+  File "moviepy\video\io\VideoFileClip.py", line 88, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 35, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 270, in ffmpeg_parse_infos
+OSError: MoviePy error: the file ../../../../temp/video.mp4 could not be found!
+Please check that you entered the correct path.
+[22872] Failed to execute script 'combine' due to unhandled exception!
+"
+[3/7/2023, 23:28:28] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: cd C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\combine.exe
+The directory name is invalid.
+"
+[3/7/2023, 23:29:26] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: cd "C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\combine.exe"
+The directory name is invalid.
+"
+[3/7/2023, 23:29:48] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: .combine.exe
+'.combine.exe' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:29:48] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: .combine.exe
+'.combine.exe' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:35:14] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: ./combine.exe
+'.' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:35:14] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: ./combine.exe
+'.' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:36:48] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: combine.exe
+'combine.exe' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:36:48] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: combine.exe
+'combine.exe' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:37:57] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:37:57] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:39:30] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\combine.exe
+Traceback (most recent call last):
+  File "combine.py", line 32, in <module>
+  File "moviepy\video\io\VideoFileClip.py", line 88, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 35, in __init__
+  File "moviepy\video\io\ffmpeg_reader.py", line 270, in ffmpeg_parse_infos
+OSError: MoviePy error: the file video.mp4 could not be found!
+Please check that you entered the correct path.
+[16924] Failed to execute script 'combine' due to unhandled exception!
+"
+[3/7/2023, 23:40:05] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: cd "C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist ; combine.exe"
+The system cannot find the path specified.
+"
+[3/7/2023, 23:41:04] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: cd "C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist" ; combine.exe
+The system cannot find the path specified.
+"
+[3/7/2023, 23:44:20] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:44:20] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:45:31] - "Archivo: p.js. Metodo: combineFiles. Mensaje: Error durante la ejecucion de combine.exe: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"
+[3/7/2023, 23:45:31] - "Archivo: p.js. Metodo: downloader. Mensaje: Error: Error: Command failed: pwd
+'pwd' is not recognized as an internal or external command,
+operable program or batch file.
+"

@@ -3,6 +3,16 @@ const youtube = google.youtube('v3');
 const { guardarEnLog } = require('./fntLog')
 require('dotenv').config();
 
+function reemplazarCaracteresEspeciales(cadena) {
+  // Lista de caracteres especiales a reemplazar
+  const caracteresEspeciales = /[!@#$%^&*()+=\-[\]\\';,/{}|":<>?~_]/g;
+  
+  // Reemplazar caracteres especiales por "_"
+  const cadenaReemplazada = cadena.replace(caracteresEspeciales, '');
+  
+  return cadenaReemplazada;
+}
+
 function getYouTubeVideoId(url) {
   const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|watch\?v=|v\/)|youtu\.be\/)([^&?\/ ]{11})/;
   const match = url.match(regExp);
@@ -38,8 +48,9 @@ async function getVideoName(videoUrl) {
 
     const video = response.data.items[0];
     const nombreVideo = video.snippet.title;
-    videoName = nombreVideo;
     console.log('Nombre del video:', nombreVideo);
+    videoName = reemplazarCaracteresEspeciales(nombreVideo);
+    console.log('Nombre del video:', videoName);
   } catch (error) {
     console.error('Error al obtener el nombre del video:', error.message);
     guardarEnLog('checkVideo.js', 'getVideoName', 'Error al obtener el nombre del video: ' + error)

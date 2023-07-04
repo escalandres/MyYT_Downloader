@@ -1,0 +1,5 @@
+--Activar el entorno virtual
+[directorios]/myenv/Scripts/activate
+-- Ir a modules/python
+pyi-makespec --onefile combine.py
+pyinstaller combine.spec

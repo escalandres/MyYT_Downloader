@@ -21,7 +21,7 @@ function moveFile(sourceFolder, file, videoName){
     const rutaArchivoOrigen = path.join(sourceFolder, file);
     const rutaCarpetaDestino = checkPath();
 
-    const rutaArchivoDestino = path.join(rutaCarpetaDestino, videoName + '.mp4');
+    const rutaArchivoDestino = path.join(rutaCarpetaDestino, videoName);
 
     fs.rename(rutaArchivoOrigen, rutaArchivoDestino, (error) => {
     if (error) {
