@@ -8,7 +8,7 @@ const { checkVideoExists } = require('./modules/checkVideo');
 const { downloader } = require('./modules/downloader');
 const { guardarEnLog } = require('./modules/fntLog')
 const { exec } = require('child_process');
-const port = 9999;
+const port = process.env.PORT;
 appex.use(cors()); // Habilitar CORS
 
 if(process.env.NODE_ENV){

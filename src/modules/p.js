@@ -5,17 +5,10 @@ const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile } = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
-// Ruta al directorio del entorno virtual
+
+// Ruta al ejecutable 
 const ejecutable = path.join(__dirname, 'python/dist');
 const command = `cd "${ejecutable}" && combine.exe`
-
-// Comando para activar el entorno virtual (depende del sistema operativo)
-// const activateCommand = process.platform === 'win32' ? 'Scripts/activate' :  'bin/activate';
-
-// Comando completo para activar el entorno virtual
-// const activateEnvCommand = `${virtualEnvPath}/${activateCommand}`;
-
-// const pythonScript = path.join(__dirname,'python','combine.py');
 
 function deleteTempFile(file){
     let data = {
@@ -75,21 +68,12 @@ async function downloadAudio(videoUrl, videoName) {
 }
 
 async function combineFiles(){
-    console.log('Combinando archivos...')
-    const videoFile = './temp/video.mp4';
-    const audioFile = './temp/audio.mp3';
-    const outputFile = './temp/output.mp4';
-    const options = {
-        scriptPath: path.join(__dirname, 'python'),
-        args: [videoFile, audioFile, outputFile],
-    };
-
     console.log('Combinando archivos..')
     return new Promise((resolve, reject) => {
         exec(command,(error, stdout, stderr) => {
             if (error) {
                 // console.error('Error durante la ejecución del script:', error);
-                console.error(`Error en la ruta: `,error);
+                console.error('Error al combinar los archivos: ',error);
                 // guardarEnLog('p.js', 'combineFiles', 'Error durante la ejecucion de combine.exe: ' + error)
                 reject(error);
                 return;

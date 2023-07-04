@@ -58,11 +58,12 @@ function cleanInputs(){
     document.getElementById('options-container').style.display = 'none';
 }
 
-
 //--------------------- Eventos-----------------------
 document.addEventListener("DOMContentLoaded", function() {
     // Código a ejecutar cuando el DOM ha sido cargado completamente
     // mostrarPanel();
+    const currentYear = new Date().getFullYear();
+    document.getElementById('currentYear').textContent = currentYear;
 });
 
 themeToggle.addEventListener('click', function() {
@@ -95,7 +96,7 @@ document.getElementById('search-video__form').addEventListener('submit', functio
     const url = form.elements.videoUrl.value;
     toast(url)
     // Realizar la solicitud POST
-    fetch('http://localhost:9999/search-video', {
+    fetch('http://localhost:52345/search-video', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -125,33 +126,38 @@ document.getElementById('search-video__form').addEventListener('submit', functio
 document.getElementById('downloadBtn').addEventListener('click', function(e){
     e.preventDefault();
     showLoading()
-    const data = {
-        url: document.getElementById('videoUrl').value,
-        option: document.querySelector('input[name="downloadOptions"]:checked').value
+    try{
+        const data = {
+            url: document.getElementById('videoUrl').value,
+            option: document.querySelector('input[name="downloadOptions"]:checked').value
+        }
+        fetch('http://localhost:52345/download-video', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta:', data);
+            // Hacer algo con la respuesta recibida
+            hideLoading();
+            toast(data.message);
+            notification('MyYT_Downloader', 'Descarga completada')
+            cleanInputs();
+        })
+        .catch(error => {
+            hideLoading()
+            console.error('Error al hacer la solicitud POST:', error);
+            // Manejar el error
+            toast(data.message);
+            
+        });
     }
-    fetch('http://localhost:9999/download-video', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Respuesta:', data);
-        // Hacer algo con la respuesta recibida
-        hideLoading();
-        toast(data.message);
-        notification('MyYT_Downloader', 'Descarga completada')
-        cleanInputs();
-    })
-    .catch(error => {
-        hideLoading()
-        console.error('Error al hacer la solicitud POST:', error);
-        // Manejar el error
-        toast(data.message);
-        
-    });
+    catch(error){
+        toast('Ocurrió un error: ' + error);
+    }
     
 })
 
@@ -159,7 +165,7 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
 function test(){
     showLoading();
 
-    fetch('http://localhost:9999/test')
+    fetch('http://localhost:52345/test')
     .then(response => response.json())
     .then(data => {
         hideLoading();

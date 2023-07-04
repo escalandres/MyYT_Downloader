@@ -8,7 +8,7 @@
     color: var(--letter-color) !important;
 }
 
-.dark-theme .navbar, .dark-theme .toast, .dark-theme .toast-header {
+.dark-theme .navbar, .dark-theme .toast, .dark-theme .toast-header, .dark-theme footer {
     background-color: rgb(35, 37, 41) !important;
     color: var(--letter-color) !important;
 }
@@ -108,3 +108,31 @@ body{
 /* #searchBtn{
     margin-right: 1.3rem;
 } */
+
+/* Footer */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  footer {
+    background-color: var(--letter-color);
+    padding: 1rem;
+    text-align: center;
+    margin-top: auto;
+  }
+  
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
+  
+  p {
+    margin: 0;
+  }
