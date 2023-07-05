@@ -71,7 +71,7 @@ async function downloadAudio(videoUrl, videoName) {
 
 async function combineFiles(){
     console.log('Combinando archivos..')
-    guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command)
+    guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
     return new Promise((resolve, reject) => {
         exec(command,(error, stdout, stderr) => {
             if (error) {
