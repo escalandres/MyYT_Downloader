@@ -20,13 +20,13 @@ function getYouTubeVideoId(url) {
 }
 
 
-async function checkVideoExists(videoUrl) {
+async function checkVideoExists(videoUrl, ApiKey) {
   let videoId = getYouTubeVideoId(videoUrl)
   try {
     const res = await youtube.videos.list({
     part: 'id',
     id: videoId,
-    key: process.env.V3API
+    key: ApiKey
     });
     return res.data.items.length > 0;
   } catch (error) {
@@ -36,14 +36,14 @@ async function checkVideoExists(videoUrl) {
   }
 }
 
-async function getVideoName(videoUrl) {
+async function getVideoName(videoUrl, ApiKey) {
   let videoName = 'default';
   try {
     let videoId = getYouTubeVideoId(videoUrl)
     const response = await youtube.videos.list({
       part: 'snippet',
       id: videoId,
-      key: process.env.V3API
+      key: ApiKey
     });
 
     const video = response.data.items[0];

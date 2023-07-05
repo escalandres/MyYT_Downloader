@@ -8,7 +8,18 @@ const { checkVideoExists } = require('./modules/checkVideo');
 const { downloader } = require('./modules/downloader');
 const { guardarEnLog } = require('./modules/fntLog')
 const { exec } = require('child_process');
-const port = process.env.PORT;
+const dotenv = require('dotenv');
+const envPath = path.resolve(__dirname, '../', '.env');
+guardarEnLog('index.js', 'main', 'Prueba .env: ' + envPath);
+// Cargando las variables de entorno desde el archivo
+const result = dotenv.config({ path: envPath });
+if (result.error) {
+  console.error('Error al cargar el archivo .env:', result.error);
+  guardarEnLog('index.js', 'main', 'Error al cargar el archivo .env: ' + result.error);
+}
+// require('dotenv').config();
+// const port = process.env.PORT;
+const port = 52345;
 appex.use(cors()); // Habilitar CORS
 
 if(process.env.NODE_ENV){
@@ -99,7 +110,7 @@ appex.post('/search-video', async (req, res) => {
   // console.log('Datos recibidos:', datos);
   // console.log('url:', datos.url);
 
-  const result = await checkVideoExists(datos.url,'AIzaSyD8GZI-O1kl3RmaUaFiJOpHcnZ8tfn42xc')
+  const result = await checkVideoExists(datos.url,process.env.V3API)
   // console.log(result)
   if(result){
     res.status(200).send({ message: 'El video existe', code: 200, estatus: true });
@@ -113,7 +124,7 @@ appex.post('/search-video', async (req, res) => {
 appex.post('/download-video', async (req, res) => {
   console.log('download-video')
   const datos = req.body;
-  const result = await downloader(datos.url,datos.option)
+  const result = await downloader(datos.url,datos.option,process.env.V3API)
   if(result){
     res.status(200).send({ message: 'Descarga completada', code: 200, estatus: true });
   }

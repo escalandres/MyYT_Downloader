@@ -30,6 +30,7 @@ function deleteTempFile(file){
 
 async function downloadVideo(videoUrl, videoName) {
     console.log('Descargando video...')
+    guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
         ytdl(videoUrl)
             .pipe(fs.createWriteStream(videoName + '.mp4'))
@@ -86,9 +87,9 @@ async function combineFiles(){
     });
 }
 
-async function downloader(videoUrl, option){
+async function downloader(videoUrl, option, ApiKey){
     let result = false;
-    let videoName = await getVideoName(videoUrl)
+    let videoName = await getVideoName(videoUrl, ApiKey)
     console.log('video: ' + videoName)
     // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
@@ -100,15 +101,15 @@ async function downloader(videoUrl, option){
         result = audio;
     }
     else if(option === 'va'){
-        const video = await downloadVideo(videoUrl, './src/modules/python/dist/video')
-        const audio = await downloadAudio(videoUrl, './src/modules/python/dist/audio')
+        const video = await downloadVideo(videoUrl, path.join(__dirname, 'python/dist', 'video'))
+        const audio = await downloadAudio(videoUrl, path.join(__dirname, 'python/dist', 'audio'))
         if(video && audio){
             try {
                 const resultado = await combineFiles();
                 if(resultado){
-                    moveFile('./src/modules/python/dist', 'output.mp4', videoName + '.mp4');
-                    deleteTempFile('./src/modules/python/dist/video.mp4')
-                    deleteTempFile('./src/modules/python/dist/audio.mp3')
+                    moveFile(path.join(__dirname,'python/dist'), 'output.mp4', videoName + '.mp4');
+                    deleteTempFile(path.join(__dirname, 'python/dist', 'video.mp4'))
+                    deleteTempFile(path.join(__dirname, 'python/dist', 'audio.mp3'))
                     result = resultado;
                 }
             } catch (error) {

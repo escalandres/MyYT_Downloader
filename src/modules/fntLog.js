@@ -18,9 +18,15 @@ function guardarEnLog(archivo,metodo,mensaje) {
         timeZone: 'America/Mexico_City', // Ajusta la zona horaria según tu ubicación
         hour12: false,
     });
-
+    const rutaLog = path.join(__dirname, 'log')
     const logMensaje = `[${fechaHoraFormateada}] - "Archivo: ${archivo}. Metodo: ${metodo}. Mensaje: ${mensaje}"\n`;
-    const file = path.join(__dirname, '../../log','log_' + getDate() + '.txt')
+    const file = path.join('log','log_' + getDate() + '.txt')
+    if (!fs.existsSync('log')) {
+        fs.mkdirSync('log');
+        console.log('Carpeta creada correctamente');
+    } else {
+        console.log('La carpeta ya existe');
+    }
     fs.appendFile(file, logMensaje, (error) => {
         if (error) {
             console.error('Error al guardar en el archivo log.txt:', error);

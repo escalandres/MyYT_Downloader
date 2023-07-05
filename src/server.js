@@ -7,7 +7,10 @@ const { checkVideoExists } = require('./modules/checkVideo');
 const { downloader } = require('./modules/downloader');
 const { guardarEnLog } = require('./modules/fntLog')
 
-const port = process.env.PORT;
+// require('dotenv').config();
+
+// const port = process.env.PORT;
+const port = 52345;
 // let port = process.env.PORT;
 // if(port == null || port == ""){
 //   port = 3001;
