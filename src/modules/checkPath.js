@@ -31,8 +31,26 @@ function moveFile(sourceFolder, file, videoName){
         console.log('Archivo movido correctamente');
     }
     });
-
 }
+
+// function renameFile(sourceFolder, file, videoName){
+//     const fs = require('fs');
+//     const path = require('path');
+
+//     const rutaArchivoOrigen = path.join(sourceFolder, file);
+//     const rutaCarpetaDestino = checkPath();
+
+//     const rutaArchivoDestino = path.join(rutaCarpetaDestino, videoName);
+
+//     fs.rename(rutaArchivoOrigen, rutaArchivoDestino, (error) => {
+//     if (error) {
+//         console.error('Error al mover el archivo: ', error);
+//         guardarEnLog('checkPath.js', 'moveFile', 'Error al mover el archivo: ' + error)
+//     } else {
+//         console.log('Archivo movido correctamente');
+//     }
+//     });
+// }
 
 module.exports = {
     checkPath,

@@ -1,0 +1,4 @@
+[4/7/2023, 21:33:20] - "Archivo: index.js. Metodo: main. Mensaje: Prueba .env: C:\Users\andre\Documents\GitHub\MyYT_Downloader\.env"
+[4/7/2023, 21:34:31] - "Archivo: downloader.js. Metodo: downloadVideo. Mensaje: Video: C:\Users\andre\Documents\MyYT_Downloader\Marshmello Manuel Turizo  El Merengue"
+[4/7/2023, 21:35:19] - "Archivo: downloader.js. Metodo: downloadVideo. Mensaje: Video: C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\video"
+[4/7/2023, 21:35:55] - "Archivo: checkPath.js. Metodo: moveFile. Mensaje: Error al mover el archivo: Error: ENOENT: no such file or directory, rename 'C:\Users\andre\Documents\GitHub\MyYT_Downloader\src\modules\python\dist\output.mp4' -> 'C:\Users\andre\Documents\MyYT_Downloader\C:\Users\andre\Documents\MyYT_Downloader\Marshmello Manuel Turizo  El Merengue.mp4'"

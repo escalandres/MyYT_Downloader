@@ -7,9 +7,10 @@ const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 
 // Ruta al ejecutable 
-const ejecutable = path.join(__dirname, 'python/dist');
+const ejecutable = path.join(__dirname, '../../');
 const command = `cd "${ejecutable}" && combine.exe`
-
+// const command = `cd "${ejecutable}" && combine.exe`
+// const ejecutable = path.join(__dirname, 'python/dist');
 function deleteTempFile(file){
     let data = {
         estatus: false,
@@ -33,7 +34,7 @@ async function downloadVideo(videoUrl, videoName) {
     guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
         ytdl(videoUrl)
-            .pipe(fs.createWriteStream(videoName + '.mp4'))
+            .pipe(fs.createWriteStream(videoName))
             .on('finish', () => {
             console.log('Video descargado!');
             resolve(true);
@@ -55,7 +56,7 @@ async function downloadAudio(videoUrl, videoName) {
             format: 'mp3'
         };
         ytdl(videoUrl, options)
-            .pipe(fs.createWriteStream( videoName + '.mp3'))
+            .pipe(fs.createWriteStream( videoName))
             .on('finish', () => {
             console.log('Audio descargado!');
             resolve(true);
@@ -70,6 +71,7 @@ async function downloadAudio(videoUrl, videoName) {
 
 async function combineFiles(){
     console.log('Combinando archivos..')
+    guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command)
     return new Promise((resolve, reject) => {
         exec(command,(error, stdout, stderr) => {
             if (error) {
@@ -93,23 +95,24 @@ async function downloader(videoUrl, option, ApiKey){
     console.log('video: ' + videoName)
     // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName))
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName+ '.mp4'))
         result = video;
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName))
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName + '.mp3'))
         result = audio;
     }
     else if(option === 'va'){
-        const video = await downloadVideo(videoUrl, path.join(__dirname, 'python/dist', 'video'))
-        const audio = await downloadAudio(videoUrl, path.join(__dirname, 'python/dist', 'audio'))
+        guardarEnLog('downloader.js', 'downloader', 'ruta actual: ' + __dirname)
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), 'video.mp4'))
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), 'audio.mp3'))
         if(video && audio){
             try {
                 const resultado = await combineFiles();
                 if(resultado){
-                    moveFile(path.join(__dirname,'python/dist'), 'output.mp4', videoName + '.mp4');
-                    deleteTempFile(path.join(__dirname, 'python/dist', 'video.mp4'))
-                    deleteTempFile(path.join(__dirname, 'python/dist', 'audio.mp3'))
+                    moveFile(path.join(checkPath(), 'output.mp4', videoName + '.mp4' ));
+                    deleteTempFile(path.join(checkPath(), 'video.mp4'))
+                    deleteTempFile(path.join(checkPath(), 'audio.mp3'))
                     result = resultado;
                 }
             } catch (error) {
