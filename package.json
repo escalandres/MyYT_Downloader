@@ -1,6 +1,6 @@
 {
   "name": "MyYT_Downloader",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A youtube videos downloader",
   "main": "src/index.js",
   "scripts": {
@@ -30,12 +30,12 @@
     }
   },
   "dependencies": {
+    "asar": "^3.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "googleapi": "^1.0.2",
     "googleapis": "^120.0.0",
-    "ytdl-core": "^4.11.4",
-    "asar": "^3.2.0"
+    "ytdl-core": "^4.11.4"
   }
 }

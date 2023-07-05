@@ -5,8 +5,6 @@ const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile } = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
-const { app } = require('electron');
-const asar = require('asar');
 
 // Ruta al ejecutable 
 const ejecutable = path.join(__dirname, '../../');
@@ -77,53 +75,18 @@ async function combineFiles(){
     console.log('Combinando archivos..')
     guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
     return new Promise((resolve, reject) => {
-        // Obtén la ruta del archivo app.asar dentro de tu aplicación
-        const appAsarPath = path.join(app.getAppPath());
-        guardarEnLog('downloader.js', 'combineFiles', 'App: '+ appAsarPath )
-        // Extrae el contenido de app.asar a un directorio temporal
-        const tempDirectory = path.join(app.getPath('temp'), 'MyYT_Downloader');
-        guardarEnLog('downloader.js', 'combineFiles', 'temp: '+ tempDirectory )
-        asar.extractAll(appAsarPath, tempDirectory);
-
-        // Ruta al archivo combine.exe dentro del directorio temporal
-        // const combineExePath = path.join(tempDirectory, 'src/modules/python/dist/combine.exe');
-        const combineExePath = path.join(tempDirectory, 'combine.exe');
-        guardarEnLog('downloader.js', 'combineFiles', 'CombineExe: '+ combineExePath )
-        if (fs.existsSync(path.join(tempDirectory, 'combine.exe'))) {
-            console.log('El archivo existe.');
-            exec(combineExePath, (error, stdout, stderr) => {
-                if (error) {
-                    console.error('Error al combinar los archivos:', error);
-                    guardarEnLog('downloader.js', 'combineFiles', 'Error combineExePath: '+error )
-                    reject(error);
-                } else {
-                    console.log('Archivos combinados!');
-                    resolve(true);
-                }
-            });
-        } else {
-            console.log('El archivo no existe.');
-            guardarEnLog('downloader.js', 'combineFiles', 'El archivo no existe.' )
-            reject(error);
-        }
-        // Comprueba si el archivo combine.exe existe
-        // if (asar.statFile(appAsarPath, 'src/modules/python/dist/combine.exe').size !== -1) {
-        //     // Ejecuta combine.exe
-        //     exec(combineExePath, (error, stdout, stderr) => {
-        //     if (error) {
-        //         console.error('Error al combinar los archivos:', error);
-        //         guardarEnLog('downloader.js', 'combineFiles', 'Error combineExePath: '+error )
-        //         reject(error);
-        //     } else {
-        //         console.log('Archivos combinados!');
-        //         resolve(true);
-        //     }
-        //     });
-        // } else {
-        //     console.error('El archivo combine.exe no existe en app.asar');
-        //     guardarEnLog('downloader.js', 'combineFiles', 'El archivo combine.exe no existe en app.asar')
-        //     reject(new Error('Archivo no encontrado'));
-        // }
+        exec(command,(error, stdout, stderr) => {
+            if (error) {
+                // console.error('Error durante la ejecución del script:', error);
+                console.error('Error al combinar los archivos: ',error);
+                // guardarEnLog('downloader.js', 'combineFiles', 'Error durante la ejecucion de combine.exe: ' + error)
+                reject(error);
+                return;
+            } else {
+                console.log('Archivos combinados!');
+                resolve(true);
+            }
+        });
         
     });
 }
@@ -149,7 +112,7 @@ async function downloader(videoUrl, option, ApiKey){
             try {
                 const resultado = await combineFiles();
                 if(resultado){
-                    moveFile(checkPath(), 'output.mp4', videoName + '.mp4' );
+                    moveFile(path.join(checkPath(), 'output.mp4', videoName + '.mp4' ));
                     deleteTempFile(path.join(checkPath(), 'video.mp4'))
                     deleteTempFile(path.join(checkPath(), 'audio.mp3'))
                     result = resultado;
