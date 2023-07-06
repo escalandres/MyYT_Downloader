@@ -1,6 +1,6 @@
 {
   "name": "MyYT_Downloader",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "description": "A youtube videos downloader",
   "main": "src/index.js",
   "scripts": {

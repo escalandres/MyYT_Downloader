@@ -2,7 +2,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const path = require('path');
 const { getVideoName } = require('./checkVideo');
-const { checkPath, moveFile } = require('./checkPath');
+const { checkPath, moveFile, checkExeFolder, deleteTempFile } = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 const { app } = require('electron');
@@ -15,23 +15,7 @@ guardarEnLog('downloader.js', 'combineFiles', 'ejecutable: '+ejecutable )
 const command = `cd "${ejecutable}" && combine.exe`
 // const command = `cd "${ejecutable}" && combine.exe`
 // const ejecutable = path.join(__dirname, 'python/dist');
-function deleteTempFile(file){
-    let data = {
-        estatus: false,
-        error: ''
-    }
-    fs.unlink(file, (error) => {
-        if (error) {
-            console.error('Error al borrar el archivo: ', error);
-            data.error = 'Error al borrar el archivo: ' + error;
-            guardarEnLog('downloader.js', 'deleteTempFile', 'Error al borrar el archivo:' + error)
-        } else {
-            console.log('Archivo borrado correctamente');
-            data.estatus = true;
-        }
-    });
-    return data
-}
+
 
 async function downloadVideo(videoUrl, videoName) {
     console.log('Descargando video...')
@@ -77,35 +61,23 @@ async function combineFiles(){
     console.log('Combinando archivos..')
     guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
     return new Promise((resolve, reject) => {
-        // Obtén la ruta del archivo app.asar dentro de tu aplicación
-        const appAsarPath = path.join(app.getAppPath());
-        guardarEnLog('downloader.js', 'combineFiles', 'App: '+ appAsarPath )
-        // Extrae el contenido de app.asar a un directorio temporal
-        const tempDirectory = path.join(app.getPath('temp'), 'MyYT_Downloader');
-        guardarEnLog('downloader.js', 'combineFiles', 'temp: '+ tempDirectory )
-        asar.extractAll(appAsarPath, tempDirectory);
-
-        // Ruta al archivo combine.exe dentro del directorio temporal
-        // const combineExePath = path.join(tempDirectory, 'src/modules/python/dist/combine.exe');
-        const combineExePath = path.join(tempDirectory, 'combine.exe');
-        guardarEnLog('downloader.js', 'combineFiles', 'CombineExe: '+ combineExePath )
-        if (fs.existsSync(path.join(tempDirectory, 'combine.exe'))) {
-            console.log('El archivo existe.');
+        const combineExePath = checkExeFolder();
+        if(combineExePath != ''){
             exec(combineExePath, (error, stdout, stderr) => {
                 if (error) {
                     console.error('Error al combinar los archivos:', error);
                     guardarEnLog('downloader.js', 'combineFiles', 'Error combineExePath: '+error )
-                    reject(error);
+                    reject(false);
                 } else {
                     console.log('Archivos combinados!');
                     resolve(true);
                 }
             });
-        } else {
-            console.log('El archivo no existe.');
-            guardarEnLog('downloader.js', 'combineFiles', 'El archivo no existe.' )
-            reject(error);
         }
+        else{
+            reject(false);
+        }
+
         // Comprueba si el archivo combine.exe existe
         // if (asar.statFile(appAsarPath, 'src/modules/python/dist/combine.exe').size !== -1) {
         //     // Ejecuta combine.exe
