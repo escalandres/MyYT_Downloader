@@ -21,7 +21,7 @@ async function downloadVideo(videoUrl, videoName) {
     console.log('Descargando video...')
     guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
-        ytdl(videoUrl)
+        ytdl(videoUrl, {quality: 'highestvideo', filter: 'videoonly'})
             .pipe(fs.createWriteStream(videoName))
             .on('finish', () => {
             console.log('Video descargado!');
