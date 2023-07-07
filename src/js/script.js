@@ -88,18 +88,44 @@ window.addEventListener("offline", function(){
 //     showLoading();
 // })
 
-document.querySelector('input[name="downloadOptions"]:checked').addEventListener('change', function(event){
-    if(this.value === "a"){
+// document.querySelector('input[name="downloadOptions"]:checked').addEventListener('change', function(event){
+//     if(this.check.value === "a"){
+//         document.getElementById('audio-options-container').style.display = '';
+//         document.getElementById('video-options-container').style.display = 'none';
+//     } else if(this.value === "v"){
+//         document.getElementById('video-options-container').style.display = '';
+//         document.getElementById('audio-options-container').style.display = 'none';
+//     } else if(this.value === "va") {
+//         document.getElementById('video-options-container').style.display = '';
+//         document.getElementById('audio-options-container').style.display = '';
+//     } else {
+//         document.getElementById('video-options-container').style.display = 'none';
+//         document.getElementById('audio-options-container').style.display = 'none';
+//     }
+// })
+
+function handleDownloadOptionChange() {
+    var selectedValue = document.querySelector('input[name="downloadOptions"]:checked').value;
+    
+    if(selectedValue === "a"){
         document.getElementById('audio-options-container').style.display = '';
         document.getElementById('video-options-container').style.display = 'none';
-    }else if(this.value === "v"){
+    } else if(selectedValue === "v"){
         document.getElementById('video-options-container').style.display = '';
         document.getElementById('audio-options-container').style.display = 'none';
-    }else{
+    } else if(selectedValue === "va") {
         document.getElementById('video-options-container').style.display = '';
         document.getElementById('audio-options-container').style.display = '';
+    } else {
+        document.getElementById('video-options-container').style.display = 'none';
+        document.getElementById('audio-options-container').style.display = 'none';
     }
-})
+}
+
+document.querySelectorAll('input[name="downloadOptions"]').forEach(function(input){
+    input.addEventListener('input', handleDownloadOptionChange);
+});
+
 
 document.getElementById('search-video__form').addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario por defecto
@@ -124,6 +150,8 @@ document.getElementById('search-video__form').addEventListener('submit', functio
             // Hacer algo con la respuesta recibida
             document.getElementById('downloadBtn').disabled = false;
             document.getElementById('options-container').style.display = '';
+            document.getElementById('audio-options-container').style.display = '';
+            document.getElementById('video-options-container').style.display = '';
         }
         toast(data.message);
     })

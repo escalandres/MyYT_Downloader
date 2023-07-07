@@ -21,14 +21,15 @@ function checkExeFolder(){
     let ruta = '';
     // Obtén la ruta del archivo app.asar dentro de tu aplicación
     const appAsarPath = path.join(app.getAppPath());
-    guardarEnLog('checkPath.js', 'checkExeFolder', 'App: ' + appAsarPath )
+    //guardarEnLog('checkPath.js', 'checkExeFolder', 'App: ' + appAsarPath )
     // Extrae el contenido de app.asar a un directorio Exe
 
     // Ruta al archivo combine.exe dentro del directorio Exe
-    const exeDirectory = path.join(appAsarPath, '../../', 'Exe');
+    const tempDirectory = path.join(appAsarPath, '../../', 'temp');
+    const exeDirectory = path.join(tempDirectory, 'exe', 'combine.exe');
 
-    if (fs.existsSync(path.join(exeDirectory, 'combine.exe'))) {
-        ruta = path.join(exeDirectory, 'combine.exe');
+    if (fs.existsSync(exeDirectory)) {
+        ruta = exeDirectory;
     } else {
         // fs.mkdir(directorio, (error) => {
         //     if (error) {
@@ -38,16 +39,16 @@ function checkExeFolder(){
         //     }
         // });
         try{
-            asar.extractAll(appAsarPath, exeDirectory);
-            ruta = path.join(exeDirectory, 'combine.exe');
-            deleteFolder(path.join(exeDirectory, 'node_modules'))
-            deleteFolder(path.join(exeDirectory, 'MyYT_Downloader-win32-x64'))
-            deleteFolder(path.join(exeDirectory, 'log'))
-            deleteFolder(path.join(exeDirectory, 'src'))
-            deleteTempFile(path.join(exeDirectory, '.env'))
-            deleteTempFile(path.join(exeDirectory, 'package.json'))
-            deleteTempFile(path.join(exeDirectory, 'pyinstaller.txt'))
-            deleteTempFile(path.join(exeDirectory, 'README.md'))
+            asar.extractAll(appAsarPath, tempDirectory);
+            ruta = exeDirectory;
+            // deleteFolder(path.join(exeDirectory, 'node_modules'))
+            // deleteFolder(path.join(exeDirectory, 'MyYT_Downloader-win32-x64'))
+            // deleteFolder(path.join(exeDirectory, 'log'))
+            // deleteFolder(path.join(exeDirectory, 'src'))
+            // deleteTempFile(path.join(exeDirectory, '.env'))
+            // deleteTempFile(path.join(exeDirectory, 'package.json'))
+            // deleteTempFile(path.join(exeDirectory, 'pyinstaller.txt'))
+            // deleteTempFile(path.join(exeDirectory, 'README.md'))
         }
         catch(err){
             guardarEnLog('checkPath.js', 'checkExePath', 'Error: ' + err)

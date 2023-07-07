@@ -10,8 +10,8 @@ const asar = require('asar');
 
 // Ruta al ejecutable 
 const ejecutable = path.join(__dirname, '../../');
-guardarEnLog('downloader.js', 'combineFiles', 'dirname: '+__dirname )
-guardarEnLog('downloader.js', 'combineFiles', 'ejecutable: '+ejecutable )
+//guardarEnLog('downloader.js', 'combineFiles', 'dirname: '+__dirname )
+//guardarEnLog('downloader.js', 'combineFiles', 'ejecutable: '+ejecutable )
 const command = `cd "${ejecutable}" && combine.exe`
 // const command = `cd "${ejecutable}" && combine.exe`
 // const ejecutable = path.join(__dirname, 'python/dist');
@@ -19,7 +19,7 @@ const command = `cd "${ejecutable}" && combine.exe`
 
 async function downloadVideo(videoUrl, videoName, videoQ) {
     console.log('Descargando video...')
-    guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
+    //guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
         ytdl(videoUrl, {quality: videoQ ?? 'highestvideo', filter: 'videoonly'})
             .pipe(fs.createWriteStream(videoName))
@@ -59,7 +59,7 @@ async function downloadAudio(videoUrl, videoName, audioQ) {
 
 async function combineFiles(){
     console.log('Combinando archivos..')
-    guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
+    //guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
     return new Promise((resolve, reject) => {
         const combineExePath = checkExeFolder();
         if(combineExePath != ''){
@@ -114,7 +114,7 @@ async function downloader(videoUrl, option, ApiKey, videoQ, audioQ){
         result = audio;
     }
     else if(option === 'va'){
-        guardarEnLog('downloader.js', 'downloader', 'ruta actual: ' + __dirname)
+        //guardarEnLog('downloader.js', 'downloader', 'ruta actual: ' + __dirname)
         const video = await downloadVideo(videoUrl, path.join(checkPath(), 'video.mp4'))
         const audio = await downloadAudio(videoUrl, path.join(checkPath(), 'audio.mp3'))
         if(video && audio){

@@ -1,0 +1,3 @@
+[7/7/2023, 9:21:19] - "Archivo: downloader.js. Metodo: combineFiles. Mensaje: dirname: C:\Users\aescala\Documents\VSC\MyYT_Downloader\src\modules"
+[7/7/2023, 9:21:19] - "Archivo: downloader.js. Metodo: combineFiles. Mensaje: ejecutable: C:\Users\aescala\Documents\VSC\MyYT_Downloader\"
+[7/7/2023, 9:21:19] - "Archivo: index.js. Metodo: main. Mensaje: Prueba .env: C:\Users\aescala\Documents\VSC\MyYT_Downloader\.env"

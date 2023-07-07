@@ -2,7 +2,7 @@
     --bs-body-color: #212529;
     --letter-color: #f6f6f6;
 }
-/*Seccion de temas*/
+/*--------------------------Seccion de temas---------------------------------*/
 .dark-theme {
     background-color: var(--bs-body-color) !important;
     color: var(--letter-color) !important;
@@ -17,7 +17,7 @@
     color: var(--letter-color) !important;
 }
 
-/*Seccion de Navbar*/
+/*-------------------------------Seccion de Navbar-----------------------------*/
 .form-switch .form-switch-input {
     font-size: 1.5em;
     width: 3em !important;
@@ -98,11 +98,16 @@ body{
     margin: 2rem 0 0 0;
     width: 49%;
 }
+
+.options-container{
+    margin: 1rem auto;
+}
+
 /* #searchBtn{
     margin-right: 1.3rem;
 } */
 
-/* Footer */
+/*------------------------- Footer ------------------------------------*/
 html, body {
     height: 100%;
     margin: 0;
