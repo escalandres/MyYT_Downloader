@@ -88,6 +88,19 @@ window.addEventListener("offline", function(){
 //     showLoading();
 // })
 
+document.querySelector('input[name="downloadOptions"]:checked').addEventListener('change', function(event){
+    if(this.value === "a"){
+        document.getElementById('audio-options-container').style.display = '';
+        document.getElementById('video-options-container').style.display = 'none';
+    }else if(this.value === "v"){
+        document.getElementById('video-options-container').style.display = '';
+        document.getElementById('audio-options-container').style.display = 'none';
+    }else{
+        document.getElementById('video-options-container').style.display = '';
+        document.getElementById('audio-options-container').style.display = '';
+    }
+})
+
 document.getElementById('search-video__form').addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario por defecto
     showLoading();
@@ -129,7 +142,9 @@ document.getElementById('downloadBtn').addEventListener('click', function(e){
     try{
         const data = {
             url: document.getElementById('videoUrl').value,
-            option: document.querySelector('input[name="downloadOptions"]:checked').value
+            downloadOption: document.querySelector('input[name="downloadOptions"]:checked').value,
+            videoOption: document.querySelector('input[name="videoOptions"]:checked').value,
+            audioOption: document.querySelector('input[name="audioOptions"]:checked').value
         }
         fetch('http://localhost:52345/download-video', {
             method: 'POST',

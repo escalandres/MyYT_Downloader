@@ -124,7 +124,7 @@ appex.post('/search-video', async (req, res) => {
 appex.post('/download-video', async (req, res) => {
   console.log('download-video')
   const datos = req.body;
-  const result = await downloader(datos.url,datos.option,process.env.V3API)
+  const result = await downloader(datos.url,datos.downloadOption,process.env.V3API,datos.videoOption,datos.audioOption)
   if(result){
     res.status(200).send({ message: 'Descarga completada', code: 200, estatus: true });
   }

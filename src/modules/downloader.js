@@ -17,11 +17,11 @@ const command = `cd "${ejecutable}" && combine.exe`
 // const ejecutable = path.join(__dirname, 'python/dist');
 
 
-async function downloadVideo(videoUrl, videoName) {
+async function downloadVideo(videoUrl, videoName, videoQ) {
     console.log('Descargando video...')
     guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
-        ytdl(videoUrl, {quality: 'highestvideo', filter: 'videoonly'})
+        ytdl(videoUrl, {quality: videoQ ?? 'highestvideo', filter: 'videoonly'})
             .pipe(fs.createWriteStream(videoName))
             .on('finish', () => {
             console.log('Video descargado!');
@@ -35,12 +35,12 @@ async function downloadVideo(videoUrl, videoName) {
     });
 }
     
-async function downloadAudio(videoUrl, videoName) {
+async function downloadAudio(videoUrl, videoName, audioQ) {
     console.log('Descargando audio...')
     return new Promise((resolve, reject) => {
         const options = {
             filter: 'audioonly',
-            quality: 'highestaudio',
+            quality: audioQ ?? 'highestaudio',
             format: 'mp3'
         };
         ytdl(videoUrl, options)
@@ -100,17 +100,17 @@ async function combineFiles(){
     });
 }
 
-async function downloader(videoUrl, option, ApiKey){
+async function downloader(videoUrl, option, ApiKey, videoQ, audioQ){
     let result = false;
     let videoName = await getVideoName(videoUrl, ApiKey)
     console.log('video: ' + videoName)
     // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName+ '.mp4'))
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName+ '.mp4'), videoQ)
         result = video;
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName + '.mp3'))
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName + '.mp3'), audioQ)
         result = audio;
     }
     else if(option === 'va'){
