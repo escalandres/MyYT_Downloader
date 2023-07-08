@@ -25,7 +25,7 @@ function checkExeFolder(){
     // Extrae el contenido de app.asar a un directorio Exe
 
     // Ruta al archivo combine.exe dentro del directorio Exe
-    const tempDirectory = path.join(appAsarPath, '../../', 'temp');
+    const tempDirectory = path.join(appAsarPath, '../../');
     const exeDirectory = path.join(tempDirectory, 'exe', 'combine.exe');
 
     if (fs.existsSync(exeDirectory)) {
@@ -41,12 +41,12 @@ function checkExeFolder(){
         try{
             asar.extractAll(appAsarPath, tempDirectory);
             ruta = exeDirectory;
-            // deleteFolder(path.join(exeDirectory, 'node_modules'))
-            // deleteFolder(path.join(exeDirectory, 'MyYT_Downloader-win32-x64'))
+            deleteFolder(path.join(tempDirectory, 'node_modules'))
+            deleteFolder(path.join(tempDirectory, 'MyYT_Downloader-win32-x64'))
             // deleteFolder(path.join(exeDirectory, 'log'))
-            // deleteFolder(path.join(exeDirectory, 'src'))
-            // deleteTempFile(path.join(exeDirectory, '.env'))
-            // deleteTempFile(path.join(exeDirectory, 'package.json'))
+            deleteFolder(path.join(tempDirectory, 'src'))
+            deleteTempFile(path.join(tempDirectory, '.env'))
+            deleteTempFile(path.join(tempDirectory, 'package.json'))
             // deleteTempFile(path.join(exeDirectory, 'pyinstaller.txt'))
             // deleteTempFile(path.join(exeDirectory, 'README.md'))
         }

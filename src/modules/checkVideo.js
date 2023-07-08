@@ -5,8 +5,8 @@ require('dotenv').config();
 
 function reemplazarCaracteresEspeciales(cadena) {
   // Lista de caracteres especiales a reemplazar
-  // const caracteresEspeciales = /[!@#$%^&*()+=\-[\]\\';,/{}|":<>?~_]/g;
-  const caracteresEspeciales = /[^*+=\-[\]\\';,/{}|":<>?~_]/g;
+  const caracteresEspeciales = /[!@#$%^&*()+=\-[\]\\';,/{}|":<>?~_]/g;
+  //const caracteresEspeciales = /[^*+=\-[\]\\';,/{}|":<>?~_]/g;
   
   // Reemplazar caracteres especiales por "_"
   const cadenaReemplazada = cadena.replace(caracteresEspeciales, '');
@@ -49,9 +49,9 @@ async function getVideoName(videoUrl, ApiKey) {
 
     const video = response.data.items[0];
     const nombreVideo = video.snippet.title;
-    console.log('Nombre del video:', nombreVideo);
     videoName = reemplazarCaracteresEspeciales(nombreVideo);
     console.log('Nombre del video:', videoName);
+    guardarEnLog('checkVideo.js', 'getVideoName', 'Nombre video: ' + nombreVideo)
   } catch (error) {
     console.error('Error al obtener el nombre del video:', error.message);
     guardarEnLog('checkVideo.js', 'getVideoName', 'Error al obtener el nombre del video: ' + error)
