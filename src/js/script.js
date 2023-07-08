@@ -56,6 +56,8 @@ function cleanInputs(){
     document.getElementById('videoUrl').value = '';
     document.getElementById('downloadBtn').disabled = true;
     document.getElementById('options-container').style.display = 'none';
+    document.getElementById('video-options-container').style.display = 'none';
+    document.getElementById('audio-options-container').style.display = 'none';
 }
 
 //--------------------- Eventos-----------------------

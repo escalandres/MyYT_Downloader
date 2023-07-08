@@ -5,7 +5,8 @@ require('dotenv').config();
 
 function reemplazarCaracteresEspeciales(cadena) {
   // Lista de caracteres especiales a reemplazar
-  const caracteresEspeciales = /[!@#$%^&*()+=\-[\]\\';,/{}|":<>?~_]/g;
+  // const caracteresEspeciales = /[!@#$%^&*()+=\-[\]\\';,/{}|":<>?~_]/g;
+  const caracteresEspeciales = /[^*+=\-[\]\\';,/{}|":<>?~_]/g;
   
   // Reemplazar caracteres especiales por "_"
   const cadenaReemplazada = cadena.replace(caracteresEspeciales, '');
