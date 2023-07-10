@@ -66,6 +66,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // mostrarPanel();
     const currentYear = new Date().getFullYear();
     document.getElementById('currentYear').textContent = currentYear;
+
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+        themeToggle.click();
+    }
 });
 
 themeToggle.addEventListener('click', function() {
