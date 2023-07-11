@@ -98,7 +98,6 @@ appex.use(express.urlencoded({ extended: true }));
 appex.use(express.json());
 
 appex.get('/test', (req,res)=>{
-  console.log('test')
   res.status(200).send({ message: 'Solicitud GET recibida correctamente' });
 })
 

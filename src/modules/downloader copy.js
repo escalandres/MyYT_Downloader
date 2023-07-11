@@ -2,7 +2,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const path = require('path');
 const { getVideoName } = require('./checkVideo');
-const { checkPath, moveFile } = require('./checkPath');
+const { checkPath, moveFile, checkExeFolder, deleteTempFile } = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 const { app } = require('electron');
@@ -10,34 +10,19 @@ const asar = require('asar');
 
 // Ruta al ejecutable 
 const ejecutable = path.join(__dirname, '../../');
-guardarEnLog('downloader.js', 'combineFiles', 'dirname: '+__dirname )
-guardarEnLog('downloader.js', 'combineFiles', 'ejecutable: '+ejecutable )
+//guardarEnLog('downloader.js', 'combineFiles', 'dirname: '+__dirname )
+//guardarEnLog('downloader.js', 'combineFiles', 'ejecutable: '+ejecutable )
 const command = `cd "${ejecutable}" && combine.exe`
 // const command = `cd "${ejecutable}" && combine.exe`
 // const ejecutable = path.join(__dirname, 'python/dist');
-function deleteTempFile(file){
-    let data = {
-        estatus: false,
-        error: ''
-    }
-    fs.unlink(file, (error) => {
-        if (error) {
-            console.error('Error al borrar el archivo: ', error);
-            data.error = 'Error al borrar el archivo: ' + error;
-            guardarEnLog('downloader.js', 'deleteTempFile', 'Error al borrar el archivo:' + error)
-        } else {
-            console.log('Archivo borrado correctamente');
-            data.estatus = true;
-        }
-    });
-    return data
-}
 
-async function downloadVideo(videoUrl, videoName) {
+
+async function downloadVideo(videoUrl, videoName, videoQ) {
     console.log('Descargando video...')
-    guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
+    console.log(videoQ)
+    //guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
-        ytdl(videoUrl)
+        ytdl(videoUrl, {quality: videoQ ?? 'highestvideo', filter: 'videoonly'})
             .pipe(fs.createWriteStream(videoName))
             .on('finish', () => {
             console.log('Video descargado!');
@@ -51,12 +36,13 @@ async function downloadVideo(videoUrl, videoName) {
     });
 }
     
-async function downloadAudio(videoUrl, videoName) {
+async function downloadAudio(videoUrl, videoName, audioQ) {
     console.log('Descargando audio...')
+    console.log(audioQ)
     return new Promise((resolve, reject) => {
         const options = {
             filter: 'audioonly',
-            quality: 'highestaudio',
+            quality: audioQ ?? 'highestaudio',
             format: 'mp3'
         };
         ytdl(videoUrl, options)
@@ -75,38 +61,25 @@ async function downloadAudio(videoUrl, videoName) {
 
 async function combineFiles(){
     console.log('Combinando archivos..')
-    guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
+    //guardarEnLog('downloader.js', 'combineFiles', 'Command: '+command )
     return new Promise((resolve, reject) => {
-        // Obtén la ruta del archivo app.asar dentro de tu aplicación
-        const appAsarPath = path.join(app.getAppPath());
-        guardarEnLog('downloader.js', 'combineFiles', 'App: '+ appAsarPath )
-        // Extrae el contenido de app.asar a un directorio temporal
-        // const tempDirectory = path.join(app.getPath('temp'), 'MyYT_Downloader');
-
-        guardarEnLog('downloader.js', 'combineFiles', 'temp: '+ tempDirectory )
-        asar.extractAll(appAsarPath, tempDirectory);
-        const tempDirectory = path.join(appAsarPath, '../../', 'MyYT_Downloader');
-        // Ruta al archivo combine.exe dentro del directorio temporal
-        // const combineExePath = path.join(tempDirectory, 'src/modules/python/dist/combine.exe');
-        const combineExePath = path.join(tempDirectory, 'combine.exe');
-        guardarEnLog('downloader.js', 'combineFiles', 'CombineExe: '+ combineExePath )
-        if (fs.existsSync(path.join(tempDirectory, 'combine.exe'))) {
-            console.log('El archivo existe.');
+        const combineExePath = checkExeFolder();
+        if(combineExePath != ''){
             exec(combineExePath, (error, stdout, stderr) => {
                 if (error) {
                     console.error('Error al combinar los archivos:', error);
                     guardarEnLog('downloader.js', 'combineFiles', 'Error combineExePath: '+error )
-                    reject(error);
+                    reject(false);
                 } else {
                     console.log('Archivos combinados!');
                     resolve(true);
                 }
             });
-        } else {
-            console.log('El archivo no existe.');
-            guardarEnLog('downloader.js', 'combineFiles', 'El archivo no existe.' )
-            reject(error);
         }
+        else{
+            reject(false);
+        }
+
         // Comprueba si el archivo combine.exe existe
         // if (asar.statFile(appAsarPath, 'src/modules/python/dist/combine.exe').size !== -1) {
         //     // Ejecuta combine.exe
@@ -129,23 +102,24 @@ async function combineFiles(){
     });
 }
 
-async function downloader(videoUrl, option, ApiKey){
+async function downloader(videoUrl, option, ApiKey, videoQ, audioQ){
     let result = false;
     let videoName = await getVideoName(videoUrl, ApiKey)
     console.log('video: ' + videoName)
+    console.log('v: '+videoQ +', a: '+audioQ)
     // videoName = path.join(checkPath(), videoName)
     if(option === 'v'){
-        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName+ '.mp4'))
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), videoName+ '.mp4'), videoQ)
         result = video;
     }
     else if(option === 'a'){
-        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName + '.mp3'))
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), videoName + '.mp3'), audioQ)
         result = audio;
     }
     else if(option === 'va'){
-        guardarEnLog('downloader.js', 'downloader', 'ruta actual: ' + __dirname)
-        const video = await downloadVideo(videoUrl, path.join(checkPath(), 'video.mp4'))
-        const audio = await downloadAudio(videoUrl, path.join(checkPath(), 'audio.mp3'))
+        //guardarEnLog('downloader.js', 'downloader', 'ruta actual: ' + __dirname)
+        const video = await downloadVideo(videoUrl, path.join(checkPath(), 'video.mp4'), videoQ)
+        const audio = await downloadAudio(videoUrl, path.join(checkPath(), 'audio.mp3'), audioQ)
         if(video && audio){
             try {
                 const resultado = await combineFiles();

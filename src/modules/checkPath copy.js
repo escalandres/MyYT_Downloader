@@ -5,12 +5,12 @@ const { app } = require('electron');
 const asar = require('asar');
 const { exec } = require('child_process');
 
-function mapRoute(cadena) {
+function escaparBackslashes(cadena) {
     return cadena.replace(/\\/g, '\\\\');
-}
+  }
 
 function checkPath(){
-    const rutaCarpetaDocuments = path.join(require('os').homedir(), 'Documents');
+    const rutaCarpetaDocuments = path.join(escaparBackslashes(require('os').homedir()), 'Documents');
     const rutaCarpetaDownloader = path.join(rutaCarpetaDocuments, 'MyYT_Downloader');
     if (!fs.existsSync(rutaCarpetaDownloader)) {
     fs.mkdirSync(rutaCarpetaDownloader);
@@ -24,19 +24,18 @@ function checkPath(){
 function checkExeFolder(){
     let ruta = '';
     // Obtén la ruta del archivo app.asar dentro de tu aplicación
-    const appAsarPath = path.join(app.getAppPath());
+    const appAsarPath = escaparBackslashes(app.getAppPath());
     console.log(appAsarPath)
     //guardarEnLog('checkPath.js', 'checkExeFolder', 'App: ' + appAsarPath )
     // Extrae el contenido de app.asar a un directorio Exe
 
     // Ruta al archivo combine.exe dentro del directorio Exe
-    const tempDirectory = path.join(appAsarPath, '../');
+    const tempDirectory = escaparBackslashes(path.join(appAsarPath, '../'));
     console.log(tempDirectory)
-    const exeDirectory = mapRoute(path.join(tempDirectory, 'exe', 'combine.exe'));
-    console.log(exeDirectory)
+    const exeDirectory = path.join(tempDirectory, 'exe', 'combine.exe');
+
     if (fs.existsSync(exeDirectory)) {
         ruta = exeDirectory;
-        console.log(ruta)
     } else {
         // fs.mkdir(directorio, (error) => {
         //     if (error) {
@@ -46,7 +45,7 @@ function checkExeFolder(){
         //     }
         // });
         try{
-            asar.extractAll(mapRoute(appAsarPath), mapRoute(tempDirectory));
+            asar.extractAll(appAsarPath, tempDirectory);
             ruta = exeDirectory;
             deleteFolder(path.join(tempDirectory, 'node_modules'))
             deleteFolder(path.join(tempDirectory, 'MyYT_Downloader-win32-x64'))
@@ -69,12 +68,12 @@ function moveFile(sourceFolder, file, videoName){
     const fs = require('fs');
     const path = require('path');
 
-    const rutaArchivoOrigen = path.join(sourceFolder, file);
+    const rutaArchivoOrigen = path.join(escaparBackslashes(sourceFolder), file);
     const rutaCarpetaDestino = checkPath();
 
-    const rutaArchivoDestino = path.join(rutaCarpetaDestino, videoName);
+    const rutaArchivoDestino = path.join(escaparBackslashes(rutaCarpetaDestino), videoName);
 
-    fs.rename(mapRoute(rutaArchivoOrigen), mapRoute(rutaArchivoDestino), (error) => {
+    fs.rename(rutaArchivoOrigen, rutaArchivoDestino, (error) => {
     if (error) {
         console.error('Error al mover el archivo: ', error);
         guardarEnLog('checkPath.js', 'moveFile', 'Error al mover el archivo: ' + error)
@@ -85,7 +84,7 @@ function moveFile(sourceFolder, file, videoName){
 }
 
 function deleteFolder(path){
-    fs.rmdir(mapRoute(path), { recursive: true }, (error) => {
+    fs.rmdir(path, { recursive: true }, (error) => {
         if (error) {
             console.error('Error al eliminar el directorio:', error);
             guardarEnLog('checkPath.js', 'deleteFolder', 'Error al eliminar el directorio: '+error)
@@ -101,7 +100,7 @@ function deleteTempFile(file){
         estatus: false,
         error: ''
     }
-    fs.unlink(mapRoute(file), (error) => {
+    fs.unlink(file, (error) => {
         if (error) {
             console.error('Error al borrar el archivo: ', error);
             data.error = 'Error al borrar el archivo: ' + error;
@@ -137,8 +136,7 @@ module.exports = {
     checkPath,
     moveFile,
     checkExeFolder,
-    deleteTempFile,
-    mapRoute
+    deleteTempFile
 }
 
 //console.log(path.join('C:\\User\\andre\\Documents', 'video'))
