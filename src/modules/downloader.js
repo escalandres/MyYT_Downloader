@@ -3,6 +3,7 @@ const ytdl = require('ytdl-core');
 const path = require('path');
 const { getVideoName } = require('./checkVideo');
 const { checkPath, moveFile, checkExeFolder, deleteTempFile, mapRoute } = require('./checkPath');
+// const checkPath = require('./checkPath');
 const { exec } = require('child_process');
 const { guardarEnLog } = require('./fntLog')
 const { app } = require('electron');
@@ -10,7 +11,7 @@ const asar = require('asar');
 
 async function downloadVideo(videoUrl, videoName, videoQ) {
     console.log('Descargando video...')
-    console.log(videoQ)
+    // console.log(videoQ)
     //guardarEnLog('downloader.js', 'downloadVideo', 'Video: ' + videoName)
     return new Promise((resolve, reject) => {
         ytdl(videoUrl, {quality: videoQ ?? 'highestvideo', filter: 'videoonly'})
@@ -29,7 +30,7 @@ async function downloadVideo(videoUrl, videoName, videoQ) {
     
 async function downloadAudio(videoUrl, videoName, audioQ) {
     console.log('Descargando audio...')
-    console.log(audioQ)
+    // console.log(audioQ)
     return new Promise((resolve, reject) => {
         const options = {
             filter: 'audioonly',

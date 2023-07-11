@@ -25,13 +25,13 @@ function checkExeFolder(){
     let ruta = '';
     // Obtén la ruta del archivo app.asar dentro de tu aplicación
     const appAsarPath = path.join(app.getAppPath());
-    console.log(appAsarPath)
+    // console.log(appAsarPath)
     //guardarEnLog('checkPath.js', 'checkExeFolder', 'App: ' + appAsarPath )
     // Extrae el contenido de app.asar a un directorio Exe
 
     // Ruta al archivo combine.exe dentro del directorio Exe
     const tempDirectory = path.join(appAsarPath, '../');
-    console.log(tempDirectory)
+    // console.log(tempDirectory)
     const exeDirectory = mapRoute(path.join(tempDirectory, 'exe', 'combine.exe'));
     console.log(exeDirectory)
     if (fs.existsSync(exeDirectory)) {

@@ -49,8 +49,8 @@ async function getVideoName(videoUrl, ApiKey) {
     const video = response.data.items[0];
     const nombreVideo = video.snippet.title;
     videoName = reemplazarCaracteresEspeciales(nombreVideo);
-    console.log('Nombre del video:', videoName);
-    guardarEnLog('checkVideo.js', 'getVideoName', 'Nombre video: ' + nombreVideo)
+    // console.log('Nombre del video:', videoName);
+    // guardarEnLog('checkVideo.js', 'getVideoName', 'Nombre video: ' + nombreVideo)
   } catch (error) {
     console.error('Error al obtener el nombre del video:', error.message);
     guardarEnLog('checkVideo.js', 'getVideoName', 'Error al obtener el nombre del video: ' + error)

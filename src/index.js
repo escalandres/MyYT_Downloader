@@ -10,7 +10,7 @@ const { guardarEnLog } = require('./modules/fntLog')
 const { exec } = require('child_process');
 const dotenv = require('dotenv');
 const envPath = path.resolve(__dirname, '../', '.env');
-guardarEnLog('index.js', 'main', 'Prueba .env: ' + envPath);
+// guardarEnLog('index.js', 'main', 'Prueba .env: ' + envPath);
 // Cargando las variables de entorno desde el archivo
 const result = dotenv.config({ path: envPath });
 if (result.error) {
@@ -27,8 +27,6 @@ if(process.env.NODE_ENV){
     electron: path.join(__dirname, '../node_modules', '.bin', 'electron')
   })
 }
-
-
 
 function createWindow() {
   // const iconPath = path.join(__dirname, 'download.svg'); // Ruta del archivo .svg
