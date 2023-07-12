@@ -35,7 +35,7 @@ function checkExeFolder(){
     const exeDirectory = mapRoute(path.join(tempDirectory, 'exe', 'combine.exe'));
     console.log(exeDirectory)
     if (fs.existsSync(exeDirectory)) {
-        ruta = exeDirectory;
+        ruta = '"' + exeDirectory + '"';
         console.log(ruta)
     } else {
         // fs.mkdir(directorio, (error) => {
@@ -47,7 +47,7 @@ function checkExeFolder(){
         // });
         try{
             asar.extractAll(mapRoute(appAsarPath), mapRoute(tempDirectory));
-            ruta = exeDirectory;
+            ruta = '"' + exeDirectory + '"';
             deleteFolder(path.join(tempDirectory, 'node_modules'))
             deleteFolder(path.join(tempDirectory, 'MyYT_Downloader-win32-x64'))
             // deleteFolder(path.join(exeDirectory, 'log'))
