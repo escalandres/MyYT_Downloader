@@ -155,6 +155,7 @@ document.getElementById('search-video__form').addEventListener('submit', functio
         if(data.estatus){
             // Hacer algo con la respuesta recibida
             document.getElementById('downloadBtn').disabled = false;
+            document.getElementById('option1').checked = true;
             document.getElementById('options-container').style.display = '';
             document.getElementById('audio-options-container').style.display = '';
             document.getElementById('video-options-container').style.display = '';
