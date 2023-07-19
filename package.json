@@ -10,7 +10,7 @@
     "package": "npx electron-packager . --overwrite"
   },
   "keywords": [],
-  "author": "",
+  "author": "escalandres",
   "license": "ISC",
   "devDependencies": {
     "electron": "^25.2.0",
