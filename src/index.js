@@ -28,12 +28,14 @@ if(process.env.NODE_ENV){
   })
 }
 
+let mainWindow;
+
 function createWindow() {
   // const iconPath = path.join(__dirname, 'download.svg'); // Ruta del archivo .svg
   // console.log(iconPath)
   // const icon = nativeImage.createFromPath(iconPath);
   // console.log(icon)
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -53,16 +55,28 @@ function createWindow() {
   const mainMenu = Menu.buildFromTemplate(templateMenu);
   Menu.setApplicationMenu(mainMenu);
 }
+const { dialog } = require('electron');
+
+function showDialog() {
+  const options = {
+    type: 'info',
+    title: 'Acerca de la aplicación',
+    message: 'MyYT_Downloader\nVersion: 1.3.0\nCopyright © 2023 - escalandres',
+    buttons: ['Aceptar']
+  };
+
+  dialog.showMessageBox(mainWindow, options);
+}
 
 const templateMenu = [
   {
-    label: 'File',
+    label: 'Ayuda',
     submenu: [
       {
-        label: 'Test',
-        accelerator: 'Ctrl+T',
+        label: 'Acerca de...',
+        accelerator: 'Ctrl+A',
         click(){
-          alert('Test')
+          showDialog()
         }
       }
     ]
