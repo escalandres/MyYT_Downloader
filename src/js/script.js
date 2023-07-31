@@ -79,36 +79,14 @@ themeToggle.addEventListener('click', function() {
 });
 
 window.addEventListener("online", function(){
-    // alert("¡Estás conectado a Internet!");
     toast("¡Estás conectado a Internet!")
     document.getElementById('searchBtn').disabled = false;
 });
 
 window.addEventListener("offline", function(){
-    // alert("¡Se perdió la conexión a Internet!");
     toast("¡Se perdió la conexión a Internet!")
     document.getElementById('searchBtn').disabled = true;
 });
-
-// btn.addEventListener('click', function(){
-//     showLoading();
-// })
-
-// document.querySelector('input[name="downloadOptions"]:checked').addEventListener('change', function(event){
-//     if(this.check.value === "a"){
-//         document.getElementById('audio-options-container').style.display = '';
-//         document.getElementById('video-options-container').style.display = 'none';
-//     } else if(this.value === "v"){
-//         document.getElementById('video-options-container').style.display = '';
-//         document.getElementById('audio-options-container').style.display = 'none';
-//     } else if(this.value === "va") {
-//         document.getElementById('video-options-container').style.display = '';
-//         document.getElementById('audio-options-container').style.display = '';
-//     } else {
-//         document.getElementById('video-options-container').style.display = 'none';
-//         document.getElementById('audio-options-container').style.display = 'none';
-//     }
-// })
 
 function handleDownloadOptionChange() {
     var selectedValue = document.querySelector('input[name="downloadOptions"]:checked').value;
@@ -132,6 +110,7 @@ document.querySelectorAll('input[name="downloadOptions"]').forEach(function(inpu
     input.addEventListener('input', handleDownloadOptionChange);
 });
 
+// ------------------------ Seccion de Peticiones ------------------------------
 
 document.getElementById('search-video__form').addEventListener('submit', function(event) {
     event.preventDefault(); // Evitar el envío del formulario por defecto
