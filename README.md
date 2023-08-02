@@ -5,7 +5,7 @@ Primero se comprueba si el video existe; y en caso de que exista, se habilitan e
 
 ## Ruta de los archivos
 
-Los archivos se guardan en el directorio `C:Users\{user}\Documents\MyYT_Downloader`. La aplicación crea el directorio si ésta no existe.
+Los archivos se guardan en el directorio `C:Users\{user}\Documents\MyYT_Downloader`. La aplicación crea el directorio si éste no existe.
 
 # Especificaciones
 
