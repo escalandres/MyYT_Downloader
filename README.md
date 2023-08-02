@@ -28,3 +28,5 @@ La aplicación cuenta con un sistema de alertas interno y externo. Utiliza un to
 sistema de notificaciones de Windows al terminar una descarga.
 
 Solamente se pueden descargar archivos en formato .mp4 y .mp3; tampoco se puede modificar la ruta de las descargas.
+
+![MyYT_Downloader](myyt_downloader.jpg)
