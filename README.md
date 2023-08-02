@@ -29,4 +29,6 @@ sistema de notificaciones de Windows al terminar una descarga.
 
 Solamente se pueden descargar archivos en formato .mp4 y .mp3; tampoco se puede modificar la ruta de las descargas.
 
+* ***Nota:*** *Los videos que tengan activado la validación de copyright no pueden ser descargados*
+
 ![MyYT_Downloader](myyt_downloader.jpg)
