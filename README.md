@@ -1,3 +1,14 @@
+# Version 1.3.0 Release
+
+La aplicación cuenta con un sistema de alertas interno y externo. Utiliza un toast para las alertas dentro de la aplicación, y envía alertas al
+sistema de notificaciones de Windows al terminar una descarga.
+
+Solamente se pueden descargar archivos en formato .mp4 y .mp3; tampoco se puede modificar la ruta de las descargas.
+
+* ***Nota:*** *Los videos que tengan activado la validación de copyright no pueden ser descargados*
+
+Link para descargar: https://drive.google.com/file/d/10IYTfZKYZA9uV8uWzYLsjdJ5XPVrGY_G/view?usp=drive_link
+
 # Descripcion
 
 La aplicación puede descargar videos de Youtube en formato *.mp4* y - .mp3 -, solamente se necesita la URL del video a descargar.
@@ -21,14 +32,5 @@ Los archivos descargados se guardan con el mismo nombre del video de YouTube.
 
 Al descargar un video con audio, tome en cuenta que la descarga demora un tiempo mayor en comparación con la descarga de solo video o solo audio.
 Espere hasta que la animación de carga concluya.
-
-# Version 1.3.0 Release
-
-La aplicación cuenta con un sistema de alertas interno y externo. Utiliza un toast para las alertas dentro de la aplicación, y envía alertas al
-sistema de notificaciones de Windows al terminar una descarga.
-
-Solamente se pueden descargar archivos en formato .mp4 y .mp3; tampoco se puede modificar la ruta de las descargas.
-
-* ***Nota:*** *Los videos que tengan activado la validación de copyright no pueden ser descargados*
 
 ![MyYT_Downloader](myyt_downloader.jpg)
