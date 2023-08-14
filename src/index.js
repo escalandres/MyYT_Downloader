@@ -10,6 +10,7 @@ const { guardarEnLog } = require('./modules/fntLog')
 const { exec } = require('child_process');
 const dotenv = require('dotenv');
 const envPath = path.resolve(__dirname, '../', '.env');
+const 
 // guardarEnLog('index.js', 'main', 'Prueba .env: ' + envPath);
 // Cargando las variables de entorno desde el archivo
 const result = dotenv.config({ path: envPath });
@@ -80,7 +81,21 @@ const templateMenu = [
         }
       }
     ]
-  }
+  },
+  {
+    label: 'Ajustes',
+    click: () => {
+      const settingsWindow = new BrowserWindow({
+        width: 400,
+        height: 300,
+        webPreferences: {
+          preload: path.join(__dirname,'js','renderer.js'),
+        },
+      });
+
+      settingsWindow.loadFile(path.join(__dirname,'views','settings.html'));
+    },
+  },
 ]
 
 app.whenReady().then(() => {
@@ -143,6 +158,25 @@ appex.post('/download-video', async (req, res) => {
   else{
     res.status(404).send({message: 'Ocurrió un error durante la descarga. Inténtelo más tarde', code: 500, estatus: false})
     guardarEnLog('index.js', 'appex.post(/download-video)', 'Ocurrió un error durante la descarga. Inténtelo más tarde')
+  }
+});
+
+appex.post('/path', async (req, res) => {
+  console.log('path')
+  // Obtener los datos recibidos en la solicitud POST
+  const datos = req.body;
+  // Hacer algo con los datos recibidos
+  // console.log('Datos recibidos:', datos);
+  // console.log('url:', datos.url);
+
+  const result = await checkVideoExists(datos.url,process.env.V3API)
+  // console.log(result)
+  if(result){
+    res.status(200).send({ message: 'El video existe', code: 200, estatus: true });
+  }
+  else{
+    res.status(404).send({message: 'El video no existe. Ingrese una url válida', code: 404, estatus: false})
+    guardarEnLog('index.js', 'appex.post(/search-video)', 'El video no existe. Ingrese una url válida')
   }
 });
 
