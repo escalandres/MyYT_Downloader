@@ -10,7 +10,7 @@ const { guardarEnLog } = require('./modules/fntLog')
 const { exec } = require('child_process');
 const dotenv = require('dotenv');
 const envPath = path.resolve(__dirname, '../', '.env');
-const 
+
 // guardarEnLog('index.js', 'main', 'Prueba .env: ' + envPath);
 // Cargando las variables de entorno desde el archivo
 const result = dotenv.config({ path: envPath });
